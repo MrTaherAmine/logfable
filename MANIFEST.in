@@ -1,0 +1,9 @@
+include LICENSE NOTICE README.md CHANGELOG.md ROADMAP.md SECURITY.md CONTRIBUTING.md CODE_OF_CONDUCT.md SUPPORT.md CITATION.cff AUTHORS.md RELEASE_NOTES_v1.0.0.md action.yml requirements-runtime.lock
+recursive-include docs *.md *.svg *.png
+recursive-include scenarios *.yaml
+recursive-include schemas *.json
+recursive-include rules *.yml
+recursive-include examples *
+recursive-include samples *
+recursive-include tests *.py
+global-exclude __pycache__ *.py[cod] .coverage

@@ -1,0 +1,18 @@
+LogFable
+Copyright 2026 Taher Amine ELHOUARI
+
+This product includes original software and synthetic scenario content licensed under Apache-2.0.
+
+MITRE ATT&CK attribution
+------------------------
+LogFable references MITRE ATT&CK identifiers and public ATT&CK data/documentation for validation and mapping purposes.
+© 2026 The MITRE Corporation. This work is reproduced and distributed with the permission of The MITRE Corporation.
+ATT&CK® is a registered trademark of The MITRE Corporation. Use does not imply MITRE endorsement.
+
+MITRE D3FEND attribution
+------------------------
+LogFable references MITRE D3FEND identifiers, ontology metadata, mappings, and public documentation to describe defensive opportunities. D3FEND relationships—especially inferred relationships—are not represented as guaranteed mitigations. Use does not imply MITRE endorsement.
+
+Schema names
+------------
+Elastic Common Schema (ECS) and Open Cybersecurity Schema Framework (OCSF) names are used only to describe compatibility-oriented synthetic export profiles. No endorsement is implied.

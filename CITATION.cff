@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: LogFable
+message: "If LogFable contributes to research or teaching, please cite the software release."
+type: software
+authors:
+  - family-names: ELHOUARI
+    given-names: Taher Amine
+version: 1.0.0
+date-released: 2026-08-21
+license: Apache-2.0
+repository-code: https://github.com/MrTaherAmine/logfable
+url: https://www.taheramine.org

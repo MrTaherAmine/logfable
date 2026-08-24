@@ -1,0 +1,20 @@
+name: "LogFable dataset check"
+description: "Validate LogFable scenarios and generate a deterministic defensive fixture"
+inputs:
+  scenario:
+    description: "Built-in scenario ID"
+    required: false
+    default: "password-spray-account-takeover"
+  seed:
+    description: "Deterministic seed"
+    required: false
+    default: "2026"
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      run: python -m pip install "${{ github.action_path }}"
+    - shell: bash
+      run: |
+        logfable generate "${{ inputs.scenario }}" --duration 15m --users 20 --noise 90 --target-events 60 --seed "${{ inputs.seed }}" --formats generic-jsonl --output ./logfable-action-output
+        logfable validate ./logfable-action-output

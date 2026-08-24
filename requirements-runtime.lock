@@ -1,0 +1,15 @@
+# Reproducible runtime baseline captured from the v1.0.0 Linux/Python 3.13 acceptance environment.
+# pyproject.toml remains the cross-platform dependency contract.
+annotated-doc==0.0.4
+annotated-types==0.7.0
+markdown-it-py==4.2.0
+mdurl==0.1.2
+pydantic==2.13.4
+pydantic_core==2.46.4
+Pygments==2.20.0
+PyYAML==6.0.3
+rich==15.0.0
+shellingham==1.5.4
+typer==0.26.3
+typing_extensions==4.16.0
+typing-inspection==0.4.2
