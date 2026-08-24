@@ -1,0 +1,4 @@
+scenario_step,attack_id,d3fend_id,mapping_type,confidence
+signin,T1078,D3-UGLPA,project-curated,medium
+rule,T1114.003,D3-UBA,project-curated,medium
+delegate,T1098.002,D3-UBA,project-curated,medium

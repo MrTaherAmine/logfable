@@ -1,0 +1,57 @@
+[
+  {
+    "attack_id": "T1078",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UGLPA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "entra"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Analyze cloud sign-in location patterns.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "signin",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1114.003",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UBA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "email-trace",
+      "m365"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Analyze mailbox-owner behavior for unusual rule creation.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "rule",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1098.002",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UBA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "m365"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Monitor unusual permission changes by mailbox owners.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "delegate",
+    "source_url": "https://d3fend.mitre.org/"
+  }
+]

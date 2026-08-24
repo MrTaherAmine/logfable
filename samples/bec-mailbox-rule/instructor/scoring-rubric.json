@@ -1,0 +1,21 @@
+{
+  "max_points": 100,
+  "rubric": [
+    {
+      "criterion": "timeline",
+      "points": 25
+    },
+    {
+      "criterion": "entities",
+      "points": 25
+    },
+    {
+      "criterion": "evidence",
+      "points": 25
+    },
+    {
+      "criterion": "detection-and-gaps",
+      "points": 25
+    }
+  ]
+}

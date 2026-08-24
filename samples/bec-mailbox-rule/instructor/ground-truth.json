@@ -1,0 +1,54 @@
+[
+  {
+    "event_id": "87aaeadb-6d71-d072-18b4-b487f90e53f2",
+    "step": "signin",
+    "techniques": [
+      "T1078"
+    ],
+    "event_time": "2026-03-02T08:01:29+00:00",
+    "observed_time": "2026-03-02T08:01:40+00:00",
+    "source_family": "entra",
+    "correlation_id": "1a8c9682-0271-6b1d-2542-265026e66f36",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "5c6c50f6-77d4-24f4-f5e2-f812e7964bbb",
+    "step": "rule",
+    "techniques": [
+      "T1114.003"
+    ],
+    "event_time": "2026-03-02T08:02:01+00:00",
+    "observed_time": "2026-03-02T08:02:04+00:00",
+    "source_family": "m365",
+    "correlation_id": "b0d4d561-5f80-7f8d-db31-8622a398e000",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "a9701c89-e57b-2dfd-6601-e111e2c9b66f",
+    "step": "rule",
+    "techniques": [
+      "T1114.003"
+    ],
+    "event_time": "2026-03-02T08:02:02+00:00",
+    "observed_time": "2026-03-02T08:02:18+00:00",
+    "source_family": "email-trace",
+    "correlation_id": "b0d4d561-5f80-7f8d-db31-8622a398e000",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "1271ac7f-2e8c-7532-ced6-c89dce57e2df",
+    "step": "delegate",
+    "techniques": [
+      "T1098.002"
+    ],
+    "event_time": "2026-03-02T08:03:32+00:00",
+    "observed_time": "2026-03-02T08:03:47+00:00",
+    "source_family": "m365",
+    "correlation_id": "bfd6cda2-ba89-0ce1-a65b-dcf5f62dcd78",
+    "user": "user-0001",
+    "host": "host-0001"
+  }
+]

@@ -1,0 +1,51 @@
+[
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "entra"
+    ],
+    "mapping_rationale": "A valid cloud account is used from an anomalous source.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "signin",
+    "tactic": "Initial Access",
+    "technique_id": "T1078"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "email-trace",
+      "m365"
+    ],
+    "mapping_rationale": "An email forwarding rule is added to a compromised mailbox.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "rule",
+    "tactic": "Collection",
+    "technique_id": "T1114.003"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "m365"
+    ],
+    "mapping_rationale": "Additional mailbox access is granted to preserve access.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "delegate",
+    "tactic": "Persistence",
+    "technique_id": "T1098.002"
+  }
+]

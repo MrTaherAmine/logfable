@@ -1,0 +1,195 @@
+schema_version: 1.0.0
+id: bec-mailbox-rule
+version: 1.0.0
+title: Business email compromise with mailbox-rule persistence
+summary: A synthetic cloud mailbox compromise is followed by a hidden forwarding rule
+  and unusual message activity.
+difficulty: intermediate
+status: stable
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+tags:
+- email
+- bec
+- identity
+domains:
+- enterprise
+platforms:
+- Office 365
+estimated_events: 650
+duration: 3h
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+environment:
+  preset: mid-sized
+variables: {}
+noise:
+  percentage: 95
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 5
+  max_ingestion_delay_seconds: 25
+  missing_event_rate: 0.003
+  duplicate_rate: 0.003
+steps:
+- id: signin
+  title: Compromised mailbox sign-in
+  after: []
+  delay_seconds:
+  - 20
+  - 120
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Initial Access
+    detection_strategies: []
+    analytics: []
+    data_components: []
+    rationale: A valid cloud account is used from an anomalous source.
+    confidence: high
+  d3fend:
+  - d3fend_id: D3-UGLPA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Analyze cloud sign-in location patterns.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: entra
+    action: sign-in-success
+    category: authentication
+    severity: 8
+    message: Synthetic mailbox owner sign-in from unusual location
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: rule
+  title: Mailbox forwarding rule created
+  after:
+  - signin
+  delay_seconds:
+  - 20
+  - 120
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1114.003
+    tactic: Collection
+    detection_strategies: []
+    analytics: []
+    data_components: []
+    rationale: An email forwarding rule is added to a compromised mailbox.
+    confidence: high
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Analyze mailbox-owner behavior for unusual rule creation.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: m365
+    action: mailbox-rule-create
+    category: email
+    severity: 9
+    message: Synthetic hidden inbox forwarding rule created
+    fields: {}
+  - source: email-trace
+    action: message-forwarded
+    category: email
+    severity: 7
+    message: Synthetic message forwarded by mailbox rule
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: delegate
+  title: Delegated access added
+  after:
+  - rule
+  delay_seconds:
+  - 20
+  - 120
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1098.002
+    tactic: Persistence
+    detection_strategies: []
+    analytics: []
+    data_components: []
+    rationale: Additional mailbox access is granted to preserve access.
+    confidence: high
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Monitor unusual permission changes by mailbox owners.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: m365
+    action: delegate-added
+    category: authorization
+    severity: 8
+    message: Synthetic mailbox delegate permission added
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+telemetry:
+- entra
+- m365
+- email-trace
+- email-filter
+- oauth
+detections: []
+ground_truth:
+  answers:
+  - The mailbox rule follows the anomalous sign-in and redirects selected synthetic
+    messages.
+questions:
+- Which identities and assets form the earliest correlated suspicious chain?
+- Which telemetry sources provide the strongest causal evidence?
+- Which benign lookalike could cause an overly broad detection to fire?
+- What visibility gap would most change confidence in the investigation?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: entities
+    points: 25
+  - criterion: evidence
+    points: 25
+  - criterion: detection-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
