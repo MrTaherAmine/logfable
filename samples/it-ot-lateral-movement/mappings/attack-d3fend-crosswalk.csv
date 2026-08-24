@@ -1,0 +1,6 @@
+scenario_step,attack_id,d3fend_id,mapping_type,confidence
+it-login,T0859,D3-UGLPA,project-curated,medium
+gateway,T0886,D3-ANAA,project-curated,medium
+gateway,T0886,D3-NTF,project-curated,medium
+discover,T0846,D3-PMAD,project-curated,medium
+discover,T0846,D3-NTA,project-curated,medium

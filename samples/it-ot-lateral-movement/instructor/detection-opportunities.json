@@ -1,0 +1,55 @@
+[
+  {
+    "step": "it-login",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "windows-security"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  },
+  {
+    "step": "gateway",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "ot-remote",
+      "ot-firewall"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  },
+  {
+    "step": "discover",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "ot-passive",
+      "historian"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  }
+]

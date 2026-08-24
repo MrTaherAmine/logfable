@@ -1,0 +1,50 @@
+[
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "db-audit"
+    ],
+    "mapping_rationale": "Synthetic access records show unusual high-volume data retrieval.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "access",
+    "tactic": "Collection",
+    "technique_id": "T1530"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "edr"
+    ],
+    "mapping_rationale": "Synthetic file creation represents local staging without writing real sensitive content.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "stage",
+    "tactic": "Collection",
+    "technique_id": "T1074.001"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "proxy"
+    ],
+    "mapping_rationale": "Synthetic outbound flow metadata represents exfiltration without transmitting data.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "transfer",
+    "tactic": "Exfiltration",
+    "technique_id": "T1041"
+  }
+]

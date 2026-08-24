@@ -1,0 +1,5 @@
+{
+  "answers": [
+    "Service-account use outside its workload context precedes cluster enumeration."
+  ]
+}

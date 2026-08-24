@@ -1,0 +1,96 @@
+[
+  {
+    "attack_id": "T0859",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UGLPA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "windows-security"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Analyze unusual logon patterns for privileged remote-access identities.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "it-login",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T0886",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-ANAA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "ot-firewall",
+      "ot-remote"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Administrative network activity analysis can highlight unexpected remote access.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "gateway",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T0886",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-NTF",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "ot-firewall",
+      "ot-remote"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Segmentation filtering is a containment opportunity, not guaranteed prevention.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "gateway",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T0846",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-PMAD",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "historian",
+      "ot-passive"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Protocol metadata anomaly detection can identify unusual industrial communication patterns.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "discover",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T0846",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-NTA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "historian",
+      "ot-passive"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Network traffic analysis can correlate IT-to-OT communication without active probing.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "discover",
+    "source_url": "https://d3fend.mitre.org/"
+  }
+]

@@ -1,0 +1,39 @@
+[
+  {
+    "attack_id": "T1552.001",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-CCSA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "kubernetes-audit"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Credential compromise scope analysis can review where the identity was used.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "token",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1613",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UBA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "container-runtime",
+      "kubernetes-audit"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Behavior analysis can compare service-account activity with workload baseline.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "discover",
+    "source_url": "https://d3fend.mitre.org/"
+  }
+]

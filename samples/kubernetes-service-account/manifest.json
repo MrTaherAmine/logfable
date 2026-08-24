@@ -1,0 +1,71 @@
+{
+  "configuration": {
+    "duration_seconds": 900,
+    "labeled": false,
+    "noise": 85,
+    "preset": "hybrid-enterprise",
+    "target_events": 30,
+    "users": 12
+  },
+  "engine_version": "1.0.0",
+  "environment": {
+    "entities": 75,
+    "entity_kinds": {
+      "business-unit": 7,
+      "cloud-resource": 12,
+      "endpoint": 10,
+      "group": 4,
+      "human-identity": 12,
+      "kubernetes-cluster": 2,
+      "organization": 1,
+      "pod": 6,
+      "server": 18,
+      "service-identity": 3
+    },
+    "organization": "Northstar Example Cooperative",
+    "preset": "hybrid-enterprise",
+    "relationship_kinds": {
+      "contains": 7,
+      "has-member": 12,
+      "owns": 49,
+      "primary-device": 10,
+      "schedules": 6
+    },
+    "relationships": 84,
+    "users": 12
+  },
+  "event_count": 30,
+  "ground_truth_summary": {
+    "events": 4,
+    "steps": 2
+  },
+  "knowledge": {
+    "attack": {
+      "objects": 60,
+      "sha256": "7ef980f49fad2644adf3d7b53b3d4b70fb5f8fa3bda226fdab8aaf66298f868e",
+      "version": "19.2"
+    },
+    "d3fend": {
+      "objects": 14,
+      "sha256": "4a595fe23019d90f32b28555113690b6c152d6da1bb11e06c2815b00c7e8446e",
+      "version": "1.5.0"
+    },
+    "ecs": {
+      "version": "9.4.0"
+    },
+    "ocsf": {
+      "version": "1.8.0"
+    }
+  },
+  "mapping_summary": {
+    "attack_records": 2,
+    "d3fend_records": 2,
+    "techniques": 2
+  },
+  "network_access_during_generation": false,
+  "reproducibility_scope": "same LogFable release, scenario version, knowledge versions, configuration, seed, and concurrency mode",
+  "scenario_id": "kubernetes-service-account",
+  "scenario_version": "1.0.0",
+  "seed": 2026,
+  "suspicious_events": 4
+}

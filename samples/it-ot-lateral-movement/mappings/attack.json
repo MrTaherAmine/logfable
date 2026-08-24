@@ -1,0 +1,52 @@
+[
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "windows-security"
+    ],
+    "mapping_rationale": "A valid identity is used in the ICS-related access chain.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "it-login",
+    "tactic": "ICS Initial Access / Persistence",
+    "technique_id": "T0859"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "ot-firewall",
+      "ot-remote"
+    ],
+    "mapping_rationale": "Synthetic gateway session represents remote services without issuing control commands.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "gateway",
+    "tactic": "ICS Lateral Movement",
+    "technique_id": "T0886"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "historian",
+      "ot-passive"
+    ],
+    "mapping_rationale": "Passive metadata represents remote system discovery in an ICS environment.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "discover",
+    "tactic": "ICS Discovery",
+    "technique_id": "T0846"
+  }
+]

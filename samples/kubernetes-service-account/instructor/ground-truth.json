@@ -1,0 +1,54 @@
+[
+  {
+    "event_id": "e9957779-8c6e-e0da-dfda-5c3923484204",
+    "step": "token",
+    "techniques": [
+      "T1552.001"
+    ],
+    "event_time": "2026-03-02T08:01:29+00:00",
+    "observed_time": "2026-03-02T08:01:40+00:00",
+    "source_family": "kubernetes-audit",
+    "correlation_id": "5fbc2f0d-ba32-93f1-8b5d-e1e0da73fde2",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "d39f105e-ff1e-a179-f7e2-a1cb40593ae7",
+    "step": "discover",
+    "techniques": [
+      "T1613"
+    ],
+    "event_time": "2026-03-02T08:02:01+00:00",
+    "observed_time": "2026-03-02T08:02:04+00:00",
+    "source_family": "kubernetes-audit",
+    "correlation_id": "1587986f-ad62-b7c3-5ec2-a01a599854e6",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "34a4d1f2-b48b-169a-bd82-8c9c5b90c6d0",
+    "step": "discover",
+    "techniques": [
+      "T1613"
+    ],
+    "event_time": "2026-03-02T08:02:05+00:00",
+    "observed_time": "2026-03-02T08:02:14+00:00",
+    "source_family": "container-runtime",
+    "correlation_id": "1587986f-ad62-b7c3-5ec2-a01a599854e6",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "06527fd7-7521-6e7b-5768-fbf589f97f20",
+    "step": "discover",
+    "techniques": [
+      "T1613"
+    ],
+    "event_time": "2026-03-02T08:02:02+00:00",
+    "observed_time": "2026-03-02T08:02:18+00:00",
+    "source_family": "kubernetes-audit",
+    "correlation_id": "1587986f-ad62-b7c3-5ec2-a01a599854e6",
+    "user": "user-0001",
+    "host": "host-0001"
+  }
+]

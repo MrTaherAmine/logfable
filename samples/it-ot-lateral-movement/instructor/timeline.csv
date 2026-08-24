@@ -1,0 +1,6 @@
+event_time,event_id,scenario_step
+2026-03-02T08:01:29+00:00,3fa92fd6-6daa-66e6-e4ce-613c59d1a7ba,it-login
+2026-03-02T08:02:01+00:00,a4648d8d-dd3e-70c6-b0e1-bedb39e78520,gateway
+2026-03-02T08:02:02+00:00,e4f3bf8a-e3bd-41ba-2466-e542aedc9f4b,gateway
+2026-03-02T08:03:32+00:00,d39f105e-ff1e-a179-f7e2-a1cb40593ae7,discover
+2026-03-02T08:03:36+00:00,06527fd7-7521-6e7b-5768-fbf589f97f20,discover

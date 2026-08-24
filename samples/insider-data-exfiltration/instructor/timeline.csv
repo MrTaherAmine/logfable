@@ -1,0 +1,4 @@
+event_time,event_id,scenario_step
+2026-03-02T08:01:29+00:00,78005124-d338-4a7e-4ad5-883bd1c45591,access
+2026-03-02T08:02:01+00:00,78d3e01a-ac47-5ea8-8271-733a30cff585,stage
+2026-03-02T08:03:14+00:00,d9abbf9d-fe82-3742-bf0f-dc157d739d7e,transfer

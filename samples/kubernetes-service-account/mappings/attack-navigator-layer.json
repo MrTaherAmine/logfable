@@ -1,0 +1,21 @@
+{
+  "name": "LogFable kubernetes-service-account coverage",
+  "versions": {
+    "attack": "19.2",
+    "navigator": "5.1.0",
+    "layer": "4.5"
+  },
+  "domain": "mitre-attack",
+  "techniques": [
+    {
+      "techniqueID": "T1552.001",
+      "score": 1,
+      "comment": "Expected observable evidence; not proof of detection."
+    },
+    {
+      "techniqueID": "T1613",
+      "score": 1,
+      "comment": "Expected observable evidence; not proof of detection."
+    }
+  ]
+}

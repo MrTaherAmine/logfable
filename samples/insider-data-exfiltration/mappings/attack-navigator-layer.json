@@ -1,0 +1,26 @@
+{
+  "name": "LogFable insider-data-exfiltration coverage",
+  "versions": {
+    "attack": "19.2",
+    "navigator": "5.1.0",
+    "layer": "4.5"
+  },
+  "domain": "mitre-attack",
+  "techniques": [
+    {
+      "techniqueID": "T1041",
+      "score": 1,
+      "comment": "Expected observable evidence; not proof of detection."
+    },
+    {
+      "techniqueID": "T1074.001",
+      "score": 1,
+      "comment": "Expected observable evidence; not proof of detection."
+    },
+    {
+      "techniqueID": "T1530",
+      "score": 1,
+      "comment": "Expected observable evidence; not proof of detection."
+    }
+  ]
+}

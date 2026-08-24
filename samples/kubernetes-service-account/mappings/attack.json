@@ -1,0 +1,42 @@
+[
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "kubernetes-audit"
+    ],
+    "mapping_rationale": "Synthetic metadata represents service-account credential exposure without revealing a usable token.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "token",
+    "tactic": "Credential Access",
+    "technique_id": "T1552.001"
+  },
+  {
+    "analytics": [
+      "AN1352"
+    ],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [
+      "DC0037",
+      "DC0091"
+    ],
+    "detection_strategies": [
+      "DET0490"
+    ],
+    "evidence_sources": [
+      "container-runtime",
+      "kubernetes-audit"
+    ],
+    "mapping_rationale": "Synthetic Kubernetes audit events represent pod and node enumeration.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "discover",
+    "tactic": "Discovery",
+    "technique_id": "T1613"
+  }
+]

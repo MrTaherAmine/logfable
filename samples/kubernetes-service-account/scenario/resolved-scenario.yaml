@@ -1,0 +1,170 @@
+schema_version: 1.0.0
+id: kubernetes-service-account
+version: 1.0.0
+title: Kubernetes service-account compromise and cluster discovery
+summary: A synthetic Kubernetes service account is used outside its normal workload
+  context and performs represented cluster discovery without issuing real API requests.
+difficulty: intermediate
+status: stable
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+tags:
+- kubernetes
+- container
+- identity
+domains:
+- enterprise
+platforms:
+- Containers
+estimated_events: 650
+duration: 3h
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+environment:
+  preset: cloud-native-saas
+variables: {}
+noise:
+  percentage: 95
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 5
+  max_ingestion_delay_seconds: 25
+  missing_event_rate: 0.003
+  duplicate_rate: 0.003
+steps:
+- id: token
+  title: Service-account credential represented as abused
+  after: []
+  delay_seconds:
+  - 20
+  - 120
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1552.001
+    tactic: Credential Access
+    detection_strategies: []
+    analytics: []
+    data_components: []
+    rationale: Synthetic metadata represents service-account credential exposure without
+      revealing a usable token.
+    confidence: high
+  d3fend:
+  - d3fend_id: D3-CCSA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Credential compromise scope analysis can review where the identity
+      was used.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: kubernetes-audit
+    action: serviceaccount-auth
+    category: authentication
+    severity: 8
+    message: Synthetic Kubernetes service-account authentication outside expected
+      workload
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: discover
+  title: Cluster resource discovery
+  after:
+  - token
+  delay_seconds:
+  - 20
+  - 120
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1613
+    tactic: Discovery
+    detection_strategies:
+    - DET0490
+    analytics:
+    - AN1352
+    data_components:
+    - DC0037
+    - DC0091
+    rationale: Synthetic Kubernetes audit events represent pod and node enumeration.
+    confidence: high
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can compare service-account activity with workload
+      baseline.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: kubernetes-audit
+    action: list-pods
+    category: discovery
+    severity: 8
+    message: Synthetic list request for pods; no API call is sent
+    fields: {}
+  - source: kubernetes-audit
+    action: list-nodes
+    category: discovery
+    severity: 8
+    message: Synthetic list request for nodes; no API call is sent
+    fields: {}
+  - source: container-runtime
+    action: workload-context-observed
+    category: discovery
+    severity: 7
+    message: Synthetic container runtime metadata shows the service identity outside
+      its expected workload context
+    fields:
+      expected_workload: false
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+telemetry:
+- kubernetes-audit
+- container-runtime
+- registry
+- cloud-control
+- dns
+detections: []
+ground_truth:
+  answers:
+  - Service-account use outside its workload context precedes cluster enumeration.
+questions:
+- Which identities and assets form the earliest correlated suspicious chain?
+- Which telemetry sources provide the strongest causal evidence?
+- Which benign lookalike could cause an overly broad detection to fire?
+- What visibility gap would most change confidence in the investigation?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: entities
+    points: 25
+  - criterion: evidence
+    points: 25
+  - criterion: detection-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/

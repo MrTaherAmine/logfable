@@ -1,0 +1,5 @@
+scenario_step,attack_id,d3fend_id,mapping_type,confidence
+access,T1530,D3-UBA,project-curated,medium
+stage,T1074.001,D3-FA,project-curated,medium
+transfer,T1041,D3-UDTA,project-curated,medium
+transfer,T1041,D3-NTA,project-curated,medium

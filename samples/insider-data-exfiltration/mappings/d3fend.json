@@ -1,0 +1,74 @@
+[
+  {
+    "attack_id": "T1530",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UBA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "db-audit"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Behavior analysis can compare access with job-function baselines.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "access",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1074.001",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-FA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "edr"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "File analysis can identify abnormal staging patterns.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "stage",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1041",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UDTA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "proxy"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "User data transfer analysis can identify atypical transfer volume.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "transfer",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1041",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-NTA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "proxy"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Network traffic analysis can correlate destination and volume.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "transfer",
+    "source_url": "https://d3fend.mitre.org/"
+  }
+]

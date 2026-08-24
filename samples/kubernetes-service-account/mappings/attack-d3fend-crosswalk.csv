@@ -1,0 +1,3 @@
+scenario_step,attack_id,d3fend_id,mapping_type,confidence
+token,T1552.001,D3-CCSA,project-curated,medium
+discover,T1613,D3-UBA,project-curated,medium

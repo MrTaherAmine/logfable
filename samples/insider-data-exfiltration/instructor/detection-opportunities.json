@@ -1,0 +1,53 @@
+[
+  {
+    "step": "access",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "db-audit"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  },
+  {
+    "step": "stage",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "edr"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  },
+  {
+    "step": "transfer",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "proxy"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  }
+]

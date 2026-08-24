@@ -1,0 +1,41 @@
+[
+  {
+    "event_id": "78005124-d338-4a7e-4ad5-883bd1c45591",
+    "step": "access",
+    "techniques": [
+      "T1530"
+    ],
+    "event_time": "2026-03-02T08:01:29+00:00",
+    "observed_time": "2026-03-02T08:01:40+00:00",
+    "source_family": "db-audit",
+    "correlation_id": "0c22f41b-f8e5-a2f6-c50a-601d141933e2",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "78d3e01a-ac47-5ea8-8271-733a30cff585",
+    "step": "stage",
+    "techniques": [
+      "T1074.001"
+    ],
+    "event_time": "2026-03-02T08:02:01+00:00",
+    "observed_time": "2026-03-02T08:02:04+00:00",
+    "source_family": "edr",
+    "correlation_id": "e784e00d-d5a1-958e-2c9a-f2ad660119bf",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "d9abbf9d-fe82-3742-bf0f-dc157d739d7e",
+    "step": "transfer",
+    "techniques": [
+      "T1041"
+    ],
+    "event_time": "2026-03-02T08:03:14+00:00",
+    "observed_time": "2026-03-02T08:03:35+00:00",
+    "source_family": "proxy",
+    "correlation_id": "fb564f22-71a0-7b74-508f-3035a6621806",
+    "user": "user-0001",
+    "host": "host-0001"
+  }
+]

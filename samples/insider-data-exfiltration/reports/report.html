@@ -1,0 +1,120 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><meta name='color-scheme' content='dark light'><title>LogFable report — Insider data staging and exfiltration</title><style>
+:root{color-scheme:dark light;--bg:#08111f;--card:#101a2d;--card2:#0c1627;--text:#edf4ff;--muted:#9cafc9;--line:#273652;--accent:#67e8f9;--accent2:#818cf8;--good:#6ee7b7}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:radial-gradient(circle at 20% 0,#15254b 0,transparent 32rem),var(--bg);color:var(--text);line-height:1.55}main{max-width:1180px;margin:auto;padding:34px}.skip{position:absolute;left:-9999px}.skip:focus{left:1rem;top:1rem;background:var(--card);padding:.7rem 1rem;z-index:3}header,section{background:linear-gradient(180deg,rgba(255,255,255,.025),transparent),var(--card);border:1px solid var(--line);border-radius:20px;padding:26px;margin:18px 0;box-shadow:0 16px 50px rgba(0,0,0,.12)}header{padding:34px}h1{font-size:clamp(2.2rem,5vw,4.4rem);line-height:1.02;margin:.12em 0 .3em;letter-spacing:-.04em}h2{font-size:1.55rem;margin:.25rem 0 1rem}.eyebrow{color:var(--accent);text-transform:uppercase;letter-spacing:.14em;font-size:.76rem;font-weight:800}.muted{color:var(--muted)}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:12px;background:none;border:0;padding:0;box-shadow:none}.grid>div{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:20px}.metric{font-size:2.15rem;font-weight:850;letter-spacing:-.04em}.twocol{display:grid;grid-template-columns:1fr 1fr;gap:18px}.twocol>div{min-width:0}table{width:100%;border-collapse:collapse;font-size:.94rem}td,th{padding:10px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:var(--muted);font-weight:700}.bar{height:.5rem;border-radius:999px;background:linear-gradient(90deg,var(--accent2),var(--accent));width:var(--w);min-width:4px}.timeline{list-style:none;padding:0;margin:0}.timeline li{display:grid;grid-template-columns:minmax(210px,.85fr) 150px 2fr;gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}.timeline b{color:var(--good);font-size:.8rem}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:var(--card2);padding:15px;border-radius:13px;border:1px solid var(--line);font-size:.85rem}code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--accent)}footer{color:var(--muted);padding:24px 4px 40px;text-align:center;font-size:.9rem}
+@media(prefers-color-scheme:light){:root{--bg:#f5f7fb;--card:#fff;--card2:#f2f5fa;--text:#0f172a;--muted:#5b6b82;--line:#d8dfeb;--accent:#0e7490;--accent2:#4f46e5;--good:#047857}body{background:radial-gradient(circle at 20% 0,#e5e7ff 0,transparent 32rem),var(--bg)}}
+@media(max-width:780px){main{padding:12px}header,section{padding:19px}.twocol{grid-template-columns:1fr}.timeline li{grid-template-columns:1fr;gap:3px}table{display:block;overflow-x:auto}}
+@media print{body{background:white;color:black}main{max-width:none;padding:0}header,section,.grid>div{box-shadow:none;background:white;border-color:#bbb;break-inside:avoid}.bar{background:#555}.skip{display:none}}
+</style></head><body><a class='skip' href='#content'>Skip to report content</a><main id='content'>
+<header><div class='eyebrow'>LogFable · Instructor report</div><h1>Insider data staging and exfiltration</h1><p>A synthetic insider accesses unusual business data, stages it locally, and generates outbound transfer evidence mixed with legitimate bulk-data workflows.</p><p class='muted'>Synthetic, local-first, compatibility-oriented telemetry. No external assets, analytics, tracking, or runtime network dependency.</p></header>
+<section class='grid' aria-label='Run overview'><div><div class='metric'>30</div><div>events</div></div><div><div class='metric'>6</div><div>source families</div></div><div><div class='metric'>75</div><div>entities</div></div><div><div class='metric'>3</div><div>suspicious events</div></div></section>
+<section aria-labelledby='environment'><div class='eyebrow'>Environment</div><h2 id='environment'>Organization and entity graph</h2><p><strong>Northstar Example Cooperative</strong> · preset <code>hybrid-enterprise</code> · 12 users · 84 relationships.</p><div class='twocol'><div><h3>Entity kinds</h3><table><thead><tr><th>Kind</th><th>Count</th></tr></thead><tbody><tr><td>business-unit</td><td>7</td></tr><tr><td>cloud-resource</td><td>12</td></tr><tr><td>endpoint</td><td>10</td></tr><tr><td>group</td><td>4</td></tr><tr><td>human-identity</td><td>12</td></tr><tr><td>kubernetes-cluster</td><td>2</td></tr><tr><td>organization</td><td>1</td></tr><tr><td>pod</td><td>6</td></tr><tr><td>server</td><td>18</td></tr><tr><td>service-identity</td><td>3</td></tr></tbody></table></div><div><h3>Relationship kinds</h3><table><thead><tr><th>Relationship</th><th>Count</th></tr></thead><tbody><tr><td>contains</td><td>7</td></tr><tr><td>has-member</td><td>12</td></tr><tr><td>owns</td><td>49</td></tr><tr><td>primary-device</td><td>10</td></tr><tr><td>schedules</td><td>6</td></tr></tbody></table></div></div></section>
+<section aria-labelledby='volume'><div class='eyebrow'>Telemetry</div><h2 id='volume'>Event volume over time</h2><table><thead><tr><th>Hour</th><th>Events</th><th>Relative volume</th></tr></thead><tbody><tr><td><time>2026-03-02 08:00Z</time></td><td>30</td><td><div class='bar' style='--w:100%'></div></td></tr></tbody></table></section>
+<section aria-labelledby='sources'><div class='eyebrow'>Telemetry</div><h2 id='sources'>Event count by source</h2><table><thead><tr><th>Source</th><th>Events</th><th>Relative volume</th></tr></thead><tbody><tr><td>edr</td><td>6</td><td><div class='bar' style='--w:100%'></div></td></tr><tr><td>db-audit</td><td>6</td><td><div class='bar' style='--w:100%'></div></td></tr><tr><td>windows-security</td><td>5</td><td><div class='bar' style='--w:83%'></div></td></tr><tr><td>proxy</td><td>5</td><td><div class='bar' style='--w:83%'></div></td></tr><tr><td>dns</td><td>4</td><td><div class='bar' style='--w:67%'></div></td></tr><tr><td>object-storage</td><td>4</td><td><div class='bar' style='--w:67%'></div></td></tr></tbody></table></section>
+<section aria-labelledby='categories'><div class='eyebrow'>Telemetry</div><h2 id='categories'>Event categories</h2><table><thead><tr><th>Category</th><th>Events</th></tr></thead><tbody><tr><td>network</td><td>5</td></tr><tr><td>authentication</td><td>4</td></tr><tr><td>dns</td><td>4</td></tr><tr><td>process</td><td>3</td></tr><tr><td>email</td><td>3</td></tr><tr><td>cloud</td><td>3</td></tr><tr><td>admin</td><td>3</td></tr><tr><td>cicd</td><td>3</td></tr><tr><td>database</td><td>1</td></tr><tr><td>file</td><td>1</td></tr></tbody></table></section>
+<section aria-labelledby='timeline'><div class='eyebrow'>Analyst-visible timeline</div><h2 id='timeline'>High-signal events</h2><ul class='timeline'><li><time>2026-03-02T08:03:14+00:00</time><strong>proxy</strong><span><b>sev 9</b> · Synthetic large outbound transfer to archive.example</span></li><li><time>2026-03-02T08:02:01+00:00</time><strong>edr</strong><span><b>sev 8</b> · Synthetic inert archive placeholder appears in telemetry</span></li><li><time>2026-03-02T08:01:29+00:00</time><strong>db-audit</strong><span><b>sev 7</b> · Synthetic user reads unusually large business dataset</span></li><li><time>2026-03-02T08:00:35+00:00</time><strong>windows-security</strong><span><b>sev 3</b> · Benign lookalike: user mistyped a password during routine sign-in</span></li><li><time>2026-03-02T08:01:02+00:00</time><strong>edr</strong><span><b>sev 2</b> · Routine DNS lookup</span></li><li><time>2026-03-02T08:01:38+00:00</time><strong>db-audit</strong><span><b>sev 2</b> · Routine application connection</span></li><li><time>2026-03-02T08:02:00+00:00</time><strong>proxy</strong><span><b>sev 2</b> · Routine signed application launch</span></li><li><time>2026-03-02T08:02:26+00:00</time><strong>dns</strong><span><b>sev 2</b> · Routine internal mail delivery</span></li><li><time>2026-03-02T08:03:04+00:00</time><strong>object-storage</strong><span><b>sev 2</b> · Routine cloud control-plane read operation</span></li><li><time>2026-03-02T08:03:41+00:00</time><strong>windows-security</strong><span><b>sev 2</b> · Approved administrative maintenance</span></li><li><time>2026-03-02T08:04:27+00:00</time><strong>edr</strong><span><b>sev 2</b> · Routine CI/CD build</span></li><li><time>2026-03-02T08:04:36+00:00</time><strong>db-audit</strong><span><b>sev 2</b> · Routine successful sign-in</span></li><li><time>2026-03-02T08:05:25+00:00</time><strong>proxy</strong><span><b>sev 2</b> · Routine DNS lookup</span></li><li><time>2026-03-02T08:05:48+00:00</time><strong>dns</strong><span><b>sev 2</b> · Routine application connection</span></li></ul></section>
+<section aria-labelledby='questions'><div class='eyebrow'>Exercise</div><h2 id='questions'>Investigation questions</h2><ol><li>Which identities and assets form the earliest correlated suspicious chain?</li><li>Which telemetry sources provide the strongest causal evidence?</li><li>Which benign lookalike could cause an overly broad detection to fire?</li><li>What visibility gap would most change confidence in the investigation?</li></ol></section>
+
+<section aria-labelledby='progression'><div class='eyebrow'>Instructor · incident plan</div><h2 id='progression'>Attack-stage progression</h2>
+<table><thead><tr><th>#</th><th>Step</th><th>ID</th><th>ATT&amp;CK</th><th>Evidence sources</th></tr></thead><tbody><tr><td>1</td><td>Unusual data access</td><td><code>access</code></td><td>T1530</td><td>db-audit</td></tr><tr><td>2</td><td>Local staging</td><td><code>stage</code></td><td>T1074.001</td><td>edr</td></tr><tr><td>3</td><td>Outbound transfer</td><td><code>transfer</code></td><td>T1041</td><td>proxy</td></tr></tbody></table></section>
+<section aria-labelledby='attack'><div class='eyebrow'>Instructor · framework coverage</div><h2 id='attack'>ATT&amp;CK expected-observable coverage</h2>
+<p class='muted'>Mappings describe expected observable evidence. They are not proof that a detection fires.</p>
+<table><thead><tr><th>Technique</th><th>Tactic</th><th>Step</th><th>Rationale</th><th>Confidence</th></tr></thead><tbody><tr><td><code>T1530</code></td><td>Collection</td><td>access</td><td>Synthetic access records show unusual high-volume data retrieval.</td><td>high</td></tr><tr><td><code>T1074.001</code></td><td>Collection</td><td>stage</td><td>Synthetic file creation represents local staging without writing real sensitive content.</td><td>high</td></tr><tr><td><code>T1041</code></td><td>Exfiltration</td><td>transfer</td><td>Synthetic outbound flow metadata represents exfiltration without transmitting data.</td><td>high</td></tr></tbody></table></section>
+<section aria-labelledby='d3'><div class='eyebrow'>Instructor · defensive opportunities</div><h2 id='d3'>MITRE D3FEND opportunities</h2>
+<p class='muted'>Inferred or project-curated relationships remain qualified; no mitigation guarantee is implied.</p>
+<table><thead><tr><th>D3FEND</th><th>Step</th><th>Mapping type</th><th>Rationale</th><th>Confidence</th></tr></thead><tbody><tr><td><code>D3-UBA</code></td><td>access</td><td>project-curated</td><td>Behavior analysis can compare access with job-function baselines.</td><td>medium</td></tr><tr><td><code>D3-FA</code></td><td>stage</td><td>project-curated</td><td>File analysis can identify abnormal staging patterns.</td><td>medium</td></tr><tr><td><code>D3-UDTA</code></td><td>transfer</td><td>project-curated</td><td>User data transfer analysis can identify atypical transfer volume.</td><td>medium</td></tr><tr><td><code>D3-NTA</code></td><td>transfer</td><td>project-curated</td><td>Network traffic analysis can correlate destination and volume.</td><td>medium</td></tr></tbody></table></section>
+<section aria-labelledby='detect'><div class='eyebrow'>Instructor · detection engineering</div><h2 id='detect'>Expected detection opportunities</h2>
+<table><thead><tr><th>Step</th><th>Expected detections</th><th>Required sources</th></tr></thead><tbody><tr><td>access</td><td>Correlate identity, entity, source and time-window evidence across generated telemetry.</td><td>db-audit</td></tr><tr><td>stage</td><td>Correlate identity, entity, source and time-window evidence across generated telemetry.</td><td>edr</td></tr><tr><td>transfer</td><td>Correlate identity, entity, source and time-window evidence across generated telemetry.</td><td>proxy</td></tr></tbody></table>
+<p class='muted'>Run <code>logfable benchmark</code> with an alert export to create machine-readable and Markdown benchmark results.</p></section>
+<section aria-labelledby='visibility'><div class='eyebrow'>Instructor · visibility</div><h2 id='visibility'>Telemetry impairments</h2><pre>{
+  &quot;duplicate_rate&quot;: 0.003,
+  &quot;max_clock_skew_seconds&quot;: 5,
+  &quot;max_ingestion_delay_seconds&quot;: 25,
+  &quot;missing_event_rate&quot;: 0.003
+}</pre></section>
+<section aria-labelledby='truth'><div class='eyebrow'>Instructor</div><h2 id='truth'>Ground truth summary</h2><pre>{
+  &quot;events&quot;: 3,
+  &quot;steps&quot;: 3
+}</pre></section>
+
+<section aria-labelledby='quality'><div class='eyebrow'>Quality</div><h2 id='quality'>Generation checks and exporter lossiness</h2><pre>{
+  &quot;analyst_stream_contains_labels&quot;: false,
+  &quot;events&quot;: 30,
+  &quot;exports&quot;: {
+    &quot;generic-jsonl&quot;: {
+      &quot;lossy&quot;: [],
+      &quot;path&quot;: &quot;telemetry/normalized/generic-jsonl/events.jsonl&quot;,
+      &quot;records&quot;: 30
+    }
+  },
+  &quot;sources&quot;: 6,
+  &quot;unique_event_ids&quot;: true,
+  &quot;valid&quot;: true
+}</pre></section>
+<section aria-labelledby='repro'><div class='eyebrow'>Reproducibility</div><h2 id='repro'>Run metadata</h2><pre>{
+  &quot;configuration&quot;: {
+    &quot;duration_seconds&quot;: 900,
+    &quot;labeled&quot;: false,
+    &quot;noise&quot;: 85,
+    &quot;preset&quot;: &quot;hybrid-enterprise&quot;,
+    &quot;target_events&quot;: 30,
+    &quot;users&quot;: 12
+  },
+  &quot;engine_version&quot;: &quot;1.0.0&quot;,
+  &quot;environment&quot;: {
+    &quot;entities&quot;: 75,
+    &quot;entity_kinds&quot;: {
+      &quot;business-unit&quot;: 7,
+      &quot;cloud-resource&quot;: 12,
+      &quot;endpoint&quot;: 10,
+      &quot;group&quot;: 4,
+      &quot;human-identity&quot;: 12,
+      &quot;kubernetes-cluster&quot;: 2,
+      &quot;organization&quot;: 1,
+      &quot;pod&quot;: 6,
+      &quot;server&quot;: 18,
+      &quot;service-identity&quot;: 3
+    },
+    &quot;organization&quot;: &quot;Northstar Example Cooperative&quot;,
+    &quot;preset&quot;: &quot;hybrid-enterprise&quot;,
+    &quot;relationship_kinds&quot;: {
+      &quot;contains&quot;: 7,
+      &quot;has-member&quot;: 12,
+      &quot;owns&quot;: 49,
+      &quot;primary-device&quot;: 10,
+      &quot;schedules&quot;: 6
+    },
+    &quot;relationships&quot;: 84,
+    &quot;users&quot;: 12
+  },
+  &quot;event_count&quot;: 30,
+  &quot;knowledge&quot;: {
+    &quot;attack&quot;: {
+      &quot;objects&quot;: 45,
+      &quot;sha256&quot;: &quot;ca761013373ffb5fad718a9cb36ea81e6969490252ce2f637c6649fed0345645&quot;,
+      &quot;version&quot;: &quot;19.2&quot;
+    },
+    &quot;d3fend&quot;: {
+      &quot;objects&quot;: 14,
+      &quot;sha256&quot;: &quot;4a595fe23019d90f32b28555113690b6c152d6da1bb11e06c2815b00c7e8446e&quot;,
+      &quot;version&quot;: &quot;1.5.0&quot;
+    },
+    &quot;ecs&quot;: {
+      &quot;version&quot;: &quot;9.4.0&quot;
+    },
+    &quot;ocsf&quot;: {
+      &quot;version&quot;: &quot;1.8.0&quot;
+    }
+  },
+  &quot;mapping_summary&quot;: {
+    &quot;attack_records&quot;: 3,
+    &quot;d3fend_records&quot;: 4,
+    &quot;techniques&quot;: 3
+  },
+  &quot;network_access_during_generation&quot;: false,
+  &quot;reproducibility_scope&quot;: &quot;same LogFable release, scenario version, knowledge versions, configuration, seed, and concurrency mode&quot;,
+  &quot;scenario_id&quot;: &quot;insider-data-exfiltration&quot;,
+  &quot;scenario_version&quot;: &quot;1.0.0&quot;,
+  &quot;seed&quot;: 2026,
+  &quot;suspicious_events&quot;: 3
+}</pre></section>
+<footer>Generated locally by LogFable · Maintainer: Taher Amine ELHOUARI · taheramine.org</footer></main></body></html>

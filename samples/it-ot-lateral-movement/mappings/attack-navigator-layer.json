@@ -1,0 +1,26 @@
+{
+  "name": "LogFable it-ot-lateral-movement coverage",
+  "versions": {
+    "attack": "19.2",
+    "navigator": "5.1.0",
+    "layer": "4.5"
+  },
+  "domain": "mitre-ics-attack",
+  "techniques": [
+    {
+      "techniqueID": "T0846",
+      "score": 1,
+      "comment": "Expected observable evidence; not proof of detection."
+    },
+    {
+      "techniqueID": "T0859",
+      "score": 1,
+      "comment": "Expected observable evidence; not proof of detection."
+    },
+    {
+      "techniqueID": "T0886",
+      "score": 1,
+      "comment": "Expected observable evidence; not proof of detection."
+    }
+  ]
+}
