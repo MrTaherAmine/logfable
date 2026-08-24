@@ -1,0 +1,245 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal
+  activity?
+- Which identity, host, session, and cloud/application events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: business-app-data-manipulation
+title: Business application data manipulation
+summary: A synthetic authenticated user changes high-value application records through
+  normal application and database interfaces, followed by reconciliation anomalies
+  and rollback evidence; no exploit or destructive command is emitted.
+tags:
+- application
+- database
+- integrity
+- data-manipulation
+domains:
+- enterprise
+platforms:
+- SaaS
+- Linux
+estimated_events: 900
+duration: 5h
+environment:
+  preset: mid-sized
+telemetry:
+- app-auth
+- api-gateway
+- db-audit
+- waf
+- syslog
+detections:
+- name: Sensitive record changes inconsistent with user baseline and workflow
+  expected: true
+ground_truth:
+  answers:
+  - A valid session performs an unusual sequence of high-value record updates that
+    later fails reconciliation and is rolled back.
+steps:
+- id: app-session
+  title: Authenticated business application session
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Initial Access
+    rationale: A valid synthetic business application identity establishes the session.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can compare the session context with normal application
+      usage.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: app-auth
+    action: login-success
+    category: authentication
+    severity: 5
+    message: Synthetic business application login succeeds for the target identity
+    fields: {}
+  - source: api-gateway
+    action: session-create
+    category: application
+    severity: 5
+    message: Synthetic API session is created for the same user
+    fields: {}
+  benign_lookalikes:
+  - Finance or operations staff may legitimately access the application outside their
+    normal hours.
+  expected_detections:
+  - Establish a baseline for normal application sessions before judging downstream
+    record changes.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.
+- id: record-change
+  title: High-value records modified
+  after:
+  - app-session
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1565.001
+    tactic: Impact
+    rationale: Synthetic stored business data is modified through an authenticated
+      application path.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can compare record-change volume and object selection
+      with peer activity.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-FA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: File/data artifact analysis can compare before/after record state where
+      available.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: api-gateway
+    action: record-update
+    category: application
+    severity: 8
+    message: Synthetic API updates multiple high-value business records
+    fields: {}
+  - source: db-audit
+    action: update
+    category: database
+    severity: 9
+    message: Synthetic database audit records unusual stored-data modification by
+      the application identity
+    fields: {}
+  benign_lookalikes:
+  - Month-end closing, bulk corrections, and approved data migrations can generate
+    legitimate high-volume updates.
+  expected_detections:
+  - Correlate user/session, API operation, database principal, record class, and change
+    volume.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.
+- id: reconciliation
+  title: Integrity reconciliation anomaly and rollback
+  after:
+  - record-change
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1565.001
+    tactic: Impact
+    rationale: The integrity anomaly remains tied to the synthetic stored-data manipulation
+      event.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-FA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Artifact/state comparison can detect divergence from expected records.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-CCSA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Configuration/state analysis principles apply to authoritative application
+      state reconciliation.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: syslog
+    action: reconciliation-warning
+    category: application
+    severity: 7
+    message: Synthetic reconciliation process reports inconsistent business totals
+    fields: {}
+  - source: db-audit
+    action: rollback
+    category: database
+    severity: 6
+    message: Synthetic approved rollback restores the affected fictitious records
+    fields: {}
+  benign_lookalikes:
+  - Data imports can legitimately cause temporary reconciliation differences before
+    scheduled correction.
+  expected_detections:
+  - Detect sensitive changes that are followed by integrity/reconciliation exceptions;
+    treat rollback as recovery evidence.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.

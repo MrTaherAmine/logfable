@@ -1,0 +1,240 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal activity?
+- Which identity, host, session, application, or network events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: rdp-vpn-remote-access-compromise
+title: VPN-to-RDP remote access compromise with administrator lookalikes
+summary: An unusual synthetic VPN session is followed by RDP access and administrative endpoint activity
+  while approved remote administration and travel create realistic false-positive pressure.
+tags:
+- vpn
+- rdp
+- identity
+- remote-access
+domains:
+- enterprise
+platforms:
+- Windows
+- VPN
+estimated_events: 1000
+duration: 4h
+environment:
+  preset: hybrid-enterprise
+telemetry:
+- vpn
+- active-directory
+- windows-security
+- sysmon
+- edr
+- firewall
+detections:
+- name: Cross-source correlation for vpn-to-rdp remote access compromise with administrator lookalikes
+  expected: true
+ground_truth:
+  answers:
+  - "The incident story is unusual VPN login \u2192 internal RDP \u2192 administrative activity; the intended\
+    \ challenge is separating it from approved administrator remote work."
+steps:
+- id: vpn-login
+  title: Unusual VPN authentication
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Initial Access
+    rationale: A valid synthetic account authenticates to remote access from an unusual documentation-range
+      source.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UGLPA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Geolocation/logon-pattern analysis can compare VPN authentication with user history.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can incorporate time, device, and access patterns.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: vpn
+    action: remote-session-start
+    category: authentication
+    severity: 8
+    message: Synthetic VPN telemetry records a session from an unusual location.
+    fields:
+      device: unmanaged-simulated
+  - source: active-directory
+    action: authentication-success
+    category: authentication
+    severity: 7
+    message: Synthetic directory authentication correlates to the same account and time window.
+    fields:
+      auth: success
+  benign_lookalikes:
+  - Traveling employees and newly provisioned devices can create first-seen VPN patterns.
+  expected_detections:
+  - Correlate identity, device posture, geolocation pattern, and access schedule.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: rdp-access
+  title: RDP access to internal host
+  after:
+  - vpn-login
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1021.001
+    tactic: Lateral Movement
+    rationale: Synthetic Windows and firewall metadata represents Remote Desktop Protocol access.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-NTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Network traffic analysis can connect the VPN session to the internal remote-service flow.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-ANAA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Administrative network activity analysis can compare target systems with authorized administration
+      patterns.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: windows-security
+    action: remote-interactive-logon
+    category: authentication
+    severity: 9
+    message: Synthetic Windows Security-style event represents remote interactive logon.
+    fields:
+      logon_type: remote-interactive
+  - source: firewall
+    action: rdp-connection
+    category: network
+    severity: 8
+    message: Synthetic firewall metadata records an internal RDP connection.
+    fields:
+      service: RDP
+  benign_lookalikes:
+  - Help-desk and infrastructure administrators may legitimately use RDP after VPN authentication.
+  expected_detections:
+  - Join VPN session, remote logon, source endpoint, target host criticality, and approved admin role.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: admin-activity
+  title: Administrative endpoint activity
+  after:
+  - rdp-access
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Defense Evasion
+    rationale: The valid synthetic account performs administrative activity after remote access.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-ANAA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Administrative activity analysis can identify commands or configuration changes outside
+      the approved change context.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: edr
+    action: admin-tool-use
+    category: process
+    severity: 7
+    message: Synthetic EDR records approved-tool-like administrative activity under the unusual session.
+    fields:
+      tool: INERT-ADMIN-UTILITY
+  - source: sysmon
+    action: process-start-metadata
+    category: process
+    severity: 6
+    message: Synthetic process metadata records the same administrative session.
+    fields:
+      command: INERT-NONEXECUTABLE-PLACEHOLDER
+  benign_lookalikes:
+  - Scheduled patching and support work can legitimately create the same tool and process telemetry.
+  expected_detections:
+  - Use change windows, administrator entitlements, target scope, and session provenance for tuning.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.

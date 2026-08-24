@@ -1,0 +1,248 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal activity?
+- Which identity, host, session, application, or network events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: backup-control-plane-tampering
+title: Backup control-plane tampering before simulated ransomware impact
+summary: Backup-related policy and retention settings change in synthetic audit logs, recovery artifacts
+  are marked unavailable, and a later simulated ransomware impact occurs; no destructive command is present.
+tags:
+- backup
+- ransomware
+- cloud
+- impact
+domains:
+- enterprise
+platforms:
+- Windows
+- IaaS
+- SaaS
+estimated_events: 1050
+duration: 5h
+environment:
+  preset: hybrid-enterprise
+telemetry:
+- cloud-control
+- object-storage
+- windows-security
+- edr
+- app-auth
+detections:
+- name: Cross-source correlation for backup control-plane tampering before simulated ransomware impact
+  expected: true
+ground_truth:
+  answers:
+  - The key investigation is whether recovery-control changes preceded simulated impact and whether they
+    were authorized; this scenario intentionally contains no destructive syntax.
+steps:
+- id: backup-policy-change
+  title: Backup policy unexpectedly changed
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1562.001
+    tactic: Defense Evasion
+    rationale: Synthetic control-plane changes represent impairment of a defensive recovery capability
+      without providing instructions to disable it.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-ANAA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Administrative activity analysis can flag recovery-control changes outside approved change
+      windows.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: User behavior analysis can compare the administrator action with normal duties.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: cloud-control
+    action: backup-policy-change
+    category: cloud
+    severity: 9
+    message: Synthetic cloud control-plane audit records a backup policy change.
+    fields:
+      policy: SIMULATED-BACKUP-POLICY
+  - source: app-auth
+    action: admin-authorization
+    category: authorization
+    severity: 7
+    message: Synthetic application audit records the administrator authorization context.
+    fields:
+      change_ticket: NONE
+  benign_lookalikes:
+  - Backup administrators legitimately change retention and protection policies during maintenance.
+  expected_detections:
+  - Correlate control-plane change, approver, ticket, administrator role, and recovery policy baseline.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: recovery-artifact-loss
+  title: Recovery artifacts marked unavailable
+  after:
+  - backup-policy-change
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1485
+    tactic: Impact
+    rationale: Synthetic audit metadata represents recovery artifacts becoming unavailable; no deletion
+      command or payload is emitted.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-FA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: File/object metadata analysis can establish which recovery artifacts changed state and
+      when.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: object-storage
+    action: recovery-object-state-change
+    category: cloud
+    severity: 9
+    message: Synthetic object-storage audit records recovery artifacts becoming unavailable.
+    fields:
+      objects: 42
+      content: NOT-PRESENT
+  - source: cloud-control
+    action: recovery-point-reduction
+    category: cloud
+    severity: 9
+    message: Synthetic control-plane telemetry records a sharp reduction in available recovery points.
+    fields:
+      recovery_points_before: 48
+      recovery_points_after: 3
+  benign_lookalikes:
+  - Retention-expiry jobs or storage lifecycle changes can legitimately reduce recovery-point counts.
+  expected_detections:
+  - Correlate policy changes with lifecycle jobs, approval state, and recovery-point inventory.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: simulated-impact
+  title: Simulated ransomware impact
+  after:
+  - recovery-artifact-loss
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1486
+    tactic: Impact
+    rationale: Synthetic endpoint telemetry represents encrypted-for-impact behavior without any executable
+      payload or encryption routine.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-FA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: File analysis can detect abrupt extension/entropy metadata changes in the simulated endpoint
+      evidence.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-FCOA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Content-analysis opportunities can be represented through safe file metadata without handling
+      malicious samples.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: edr
+    action: simulated-file-impact
+    category: file
+    severity: 10
+    message: Synthetic EDR telemetry records simulated high-volume file impact.
+    fields:
+      files: 600
+      payload: NONE
+  - source: windows-security
+    action: service-impact-observed
+    category: endpoint
+    severity: 8
+    message: Synthetic host audit records business-service disruption after the simulated impact.
+    fields:
+      service: SIMULATED-SERVICE
+  benign_lookalikes:
+  - Disaster-recovery testing may intentionally make recovery artifacts unavailable and simulate file-impact
+    telemetry.
+  expected_detections:
+  - Require change/test context and sequence backup-control changes before impact.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.

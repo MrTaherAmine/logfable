@@ -1,0 +1,240 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal activity?
+- Which identity, host, session, application, or network events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: session-artifact-exposure
+title: Session artifact exposure represented through safe telemetry
+summary: Endpoint and identity telemetry indicate possible exposure of browser or password-manager session
+  artifacts, followed by synthetic session reuse. No cookie, password, token, or extraction syntax is
+  emitted.
+tags:
+- endpoint
+- identity
+- session
+- browser
+domains:
+- enterprise
+platforms:
+- Windows
+- SaaS
+estimated_events: 800
+duration: 3h
+environment:
+  preset: hybrid-enterprise
+telemetry:
+- edr
+- sysmon
+- idp
+- oauth
+- proxy
+- m365
+detections:
+- name: Cross-source correlation for session artifact exposure represented through safe telemetry
+  expected: true
+ground_truth:
+  answers:
+  - The useful correlation is protected-artifact access on the endpoint followed by a new-context session
+    and unusual SaaS reads; no credential material exists in the dataset.
+steps:
+- id: artifact-risk
+  title: Browser credential-store access anomaly
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1552.001
+    tactic: Credential Access
+    rationale: Synthetic endpoint metadata represents unusual access to credential-related files without
+      exposing paths or extraction commands.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-FA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: File analysis can identify unusual processes interacting with protected credential-related
+      artifacts.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-SFA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: System-file analysis can add context to protected storage access.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: edr
+    action: protected-artifact-access
+    category: file
+    severity: 8
+    message: Synthetic EDR metadata records unusual access to a protected browser credential artifact.
+    fields:
+      artifact: INERT-CREDENTIAL-STORE
+  - source: sysmon
+    action: file-access-metadata
+    category: file
+    severity: 7
+    message: Synthetic host telemetry records matching protected-file access metadata.
+    fields:
+      content: NOT-COLLECTED
+  benign_lookalikes:
+  - Approved browser migration or enterprise password-manager maintenance may touch protected stores.
+  expected_detections:
+  - Correlate process identity, signer, user session, and protected-artifact access.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: session-reuse
+  title: Unusual session reuse
+  after:
+  - artifact-risk
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1539
+    tactic: Credential Access
+    rationale: The scenario represents later use of a web session without exposing session-cookie contents.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can compare the session with prior user/device patterns.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-CCSA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Credential-compromise scope analysis can identify other sessions potentially affected.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: idp
+    action: session-reuse
+    category: authentication
+    severity: 8
+    message: Synthetic IdP telemetry records a session appearing from a new context.
+    fields:
+      session_ref: INERT-SESSION-ID
+  - source: oauth
+    action: application-session-use
+    category: authentication
+    severity: 7
+    message: Synthetic OAuth telemetry records application use tied to the new context.
+    fields:
+      secret_material: NONE
+  benign_lookalikes:
+  - Legitimate browser profile synchronization may re-establish sessions on a replacement endpoint.
+  expected_detections:
+  - Join protected-artifact access to later session use by user and time window.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: post-session-access
+  title: Post-session SaaS access
+  after:
+  - session-reuse
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1550.001
+    tactic: Defense Evasion
+    rationale: Application session access is represented by synthetic audit activity only.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UDTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Transfer analysis can highlight unusual access volume after the session context change.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: m365
+    action: document-read-burst
+    category: saas
+    severity: 7
+    message: Synthetic SaaS audit records an unusual document-read burst.
+    fields:
+      documents: 120
+  - source: proxy
+    action: saas-session-correlation
+    category: network
+    severity: 6
+    message: Synthetic proxy metadata correlates the new session to SaaS activity.
+    fields:
+      destination: workspace.example
+  benign_lookalikes:
+  - A new corporate laptop may legitimately synchronize browser state and access many documents.
+  expected_detections:
+  - Require both endpoint artifact anomaly and identity/session context before escalating.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.

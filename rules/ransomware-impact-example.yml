@@ -1,0 +1,17 @@
+title: LogFable Synthetic High-Volume File Change Example
+id: 92dd0e20-a5a2-4fd6-af5b-b06248071a0a
+status: experimental
+description: Original LogFable example for synthetic file-activity bursts; not a production detector.
+author: Taher Amine ELHOUARI
+license: Apache-2.0
+logsource:
+  category: file_event
+detection:
+  selection:
+    action: file-change
+  condition: selection
+falsepositives:
+  - Backup, deployment, indexing, and bulk content-management operations.
+level: high
+tags:
+  - attack.t1486

@@ -1,0 +1,238 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal
+  activity?
+- Which identity, host, session, and cloud/application events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: cloud-iam-privilege-escalation-rollback
+title: Cloud IAM privilege escalation with rollback
+summary: A synthetic cloud identity receives an abnormal privileged role assignment,
+  performs sensitive control-plane reads and changes, and is later remediated through
+  explicit rollback evidence.
+tags:
+- cloud
+- iam
+- privilege-escalation
+- recovery
+domains:
+- enterprise
+platforms:
+- IaaS
+estimated_events: 900
+duration: 4h
+environment:
+  preset: cloud-native-saas
+telemetry:
+- cloudtrail
+- azure-activity
+- gcp-audit
+- cloud-control
+- entra
+detections:
+- name: Unexpected IAM elevation followed by sensitive cloud administration
+  expected: true
+ground_truth:
+  answers:
+  - An abnormal role/permission assignment enables sensitive cloud activity and is
+    later reversed by remediation.
+steps:
+- id: iam-elevation
+  title: Unexpected privileged role assignment
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1098
+    tactic: Privilege Escalation
+    rationale: Synthetic cloud account manipulation grants additional privileged access.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-CCSA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Cloud configuration/state analysis can detect unexpected role or policy
+      assignment.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: cloud-control
+    action: role-assignment
+    category: cloud
+    severity: 9
+    message: Synthetic cloud IAM role assignment grants elevated privileges
+    fields: {}
+  - source: entra
+    action: directory-role-change
+    category: identity
+    severity: 9
+    message: Synthetic directory audit records privileged role change
+    fields: {}
+  benign_lookalikes:
+  - Approved just-in-time elevation and incident-response access can legitimately
+    create short-lived privileged assignments.
+  expected_detections:
+  - Require unexpected principal + sensitive role + lack of approved elevation context.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.
+- id: privileged-cloud-use
+  title: New privilege used for sensitive cloud actions
+  after:
+  - iam-elevation
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Privilege Escalation
+    rationale: The newly privileged valid identity is used for sensitive cloud operations.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-ANAA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Administrative activity analysis can identify unusual management-plane
+      actions.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Identity behavior analysis can compare the operations with the principal
+      baseline.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: cloudtrail
+    action: sensitive-read
+    category: cloud
+    severity: 8
+    message: Synthetic newly elevated identity performs sensitive cloud inventory
+      reads
+    fields: {}
+  - source: azure-activity
+    action: resource-policy-change
+    category: cloud
+    severity: 9
+    message: Synthetic elevated identity changes a fictitious resource policy
+    fields: {}
+  - source: gcp-audit
+    action: iam-policy-read
+    category: cloud
+    severity: 7
+    message: Synthetic cloud audit records sensitive IAM policy access
+    fields: {}
+  benign_lookalikes:
+  - Platform engineering and incident response may legitimately perform similar actions
+    after temporary elevation.
+  expected_detections:
+  - Correlate role assignment with first use, resource sensitivity, and approval context.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.
+- id: rollback
+  title: Privilege removed and policy restored
+  after:
+  - privileged-cloud-use
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1098
+    tactic: Persistence
+    rationale: The same account-manipulation object is reversed during remediation.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-CCSA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: State comparison can verify that the unexpected privileged assignment
+      has been removed.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: cloud-control
+    action: role-removal
+    category: cloud
+    severity: 5
+    message: Synthetic remediation removes the unexpected privileged role
+    fields: {}
+  - source: cloud-control
+    action: policy-restore
+    category: cloud
+    severity: 4
+    message: Synthetic remediation restores the previous fictitious cloud policy
+    fields: {}
+  benign_lookalikes:
+  - Scheduled access expiration can also remove temporary privileged assignments automatically.
+  expected_detections:
+  - Treat removal/restore operations as recovery evidence and verify no residual privileged
+    paths remain.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.

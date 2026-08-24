@@ -1,0 +1,241 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal
+  activity?
+- Which identity, host, session, and cloud/application events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: mfa-fatigue-session-takeover
+title: MFA fatigue followed by session takeover
+summary: Repeated synthetic MFA prompts are followed by an accepted challenge, an
+  unusual authenticated session, and suspicious SaaS access while routine travel and
+  device-registration activity provide realistic lookalikes.
+tags:
+- identity
+- mfa
+- session
+- saas
+domains:
+- enterprise
+platforms:
+- Office 365
+- SaaS
+estimated_events: 900
+duration: 4h
+environment:
+  preset: hybrid-enterprise
+telemetry:
+- entra
+- idp
+- m365
+- oauth
+- proxy
+- vpn
+detections:
+- name: Repeated MFA prompts followed by anomalous success and session use
+  expected: true
+ground_truth:
+  answers:
+  - A burst of MFA requests precedes one accepted challenge; the resulting session
+    is then used from an unusual synthetic location and against SaaS resources.
+steps:
+- id: mfa-burst
+  title: Repeated MFA challenges
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1556.006
+    tactic: Credential Access
+    rationale: Synthetic repeated authentication prompts represent MFA request abuse.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can detect an unusual burst of authentication challenges.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-UGLPA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Geolocation/logon-pattern analysis can add context to repeated prompts.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: entra
+    action: mfa-challenge
+    category: authentication
+    severity: 5
+    message: Synthetic MFA challenge generated repeatedly for the same identity
+    fields: {}
+  - source: idp
+    action: mfa-prompt
+    category: authentication
+    severity: 5
+    message: Synthetic IdP MFA prompt burst for the same user
+    fields: {}
+  benign_lookalikes:
+  - Legitimate reauthentication after device replacement can generate several MFA
+    prompts.
+  expected_detections:
+  - Correlate repeated MFA prompts by user, device and short time window.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.
+- id: mfa-accepted
+  title: MFA challenge accepted
+  after:
+  - mfa-burst
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Initial Access
+    rationale: A valid identity is used after the MFA challenge sequence.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UGLPA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Logon-pattern analysis can compare the successful session with the
+      user baseline.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: entra
+    action: sign-in-success
+    category: authentication
+    severity: 8
+    message: Synthetic successful sign-in immediately after repeated MFA prompts
+    fields: {}
+  - source: vpn
+    action: session-start
+    category: authentication
+    severity: 7
+    message: Synthetic remote-access session begins from a documentation-range egress
+      address
+    fields: {}
+  benign_lookalikes:
+  - A user may legitimately complete MFA after several failed attempts while traveling.
+  expected_detections:
+  - Detect successful authentication following an abnormal prompt burst and unusual
+    location.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.
+- id: session-use
+  title: Authenticated session used against SaaS
+  after:
+  - mfa-accepted
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1539
+    tactic: Credential Access
+    rationale: The synthetic story represents use of a taken-over web session without
+      exposing session material.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can compare session actions with the normal SaaS
+      usage profile.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-UDTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Transfer/activity analysis can identify unusual post-authentication
+      access patterns.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: m365
+    action: mail-search
+    category: email
+    severity: 7
+    message: Synthetic authenticated session performs unusual mailbox search activity
+    fields: {}
+  - source: proxy
+    action: saas-access
+    category: network
+    severity: 6
+    message: Synthetic SaaS access occurs from the same unusual session context
+    fields: {}
+  benign_lookalikes:
+  - Bulk mailbox search can occur during approved legal or eDiscovery work.
+  expected_detections:
+  - Correlate the accepted MFA event to subsequent SaaS activity using identity and
+    session timing.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.

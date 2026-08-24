@@ -1,0 +1,224 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: intermediate
+status: stable
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables: {}
+noise:
+  percentage: 95
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 5
+  max_ingestion_delay_seconds: 25
+  missing_event_rate: 0.003
+  duplicate_rate: 0.003
+questions:
+- Which identities and assets form the earliest correlated suspicious chain?
+- Which telemetry sources provide the strongest causal evidence?
+- Which benign lookalike could cause an overly broad detection to fire?
+- What visibility gap would most change confidence in the investigation?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: entities
+    points: 25
+  - criterion: evidence
+    points: 25
+  - criterion: detection-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+id: it-ot-lateral-movement
+title: IT-to-OT lateral-movement investigation using passive synthetic evidence
+summary: A metadata-only investigation models identity use across an IT jump host
+  and OT remote-access gateway, followed by passive industrial-network observations.
+  No control commands are generated.
+tags:
+- ot
+- ics
+- lateral-movement
+domains:
+- ics
+- enterprise
+platforms:
+- Windows
+- Network
+estimated_events: 650
+duration: 4h
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  ot_metadata_only: true
+  no_control_commands: true
+environment:
+  preset: segmented-it-ot
+telemetry:
+- vpn
+- windows-security
+- ot-firewall
+- ot-remote
+- engineering-workstation
+- historian
+- ot-passive
+detections: []
+ground_truth:
+  answers:
+  - IT credential use reaches the jump path before passive OT discovery metadata appears.
+steps:
+- id: it-login
+  title: IT jump-host identity use
+  after: []
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T0859
+    tactic: ICS Initial Access / Persistence
+    rationale: A valid identity is used in the ICS-related access chain.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UGLPA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Analyze unusual logon patterns for privileged remote-access identities.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: windows-security
+    action: remote-logon
+    category: authentication
+    severity: 8
+    message: Synthetic jump-host logon recorded
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: gateway
+  title: OT remote-access gateway session
+  after:
+  - it-login
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T0886
+    tactic: ICS Lateral Movement
+    rationale: Synthetic gateway session represents remote services without issuing
+      control commands.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-ANAA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Administrative network activity analysis can highlight unexpected remote
+      access.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-NTF
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Segmentation filtering is a containment opportunity, not guaranteed
+      prevention.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: ot-remote
+    action: session-established
+    category: network
+    severity: 9
+    message: Synthetic OT remote-access gateway session
+    fields: {}
+  - source: ot-firewall
+    action: zone-transition
+    category: network
+    severity: 9
+    message: Synthetic segmentation firewall flow from jump zone to operations zone
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: discover
+  title: Passive OT asset discovery evidence
+  after:
+  - gateway
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T0846
+    tactic: ICS Discovery
+    rationale: Passive metadata represents remote system discovery in an ICS environment.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-PMAD
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Protocol metadata anomaly detection can identify unusual industrial
+      communication patterns.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-NTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Network traffic analysis can correlate IT-to-OT communication without
+      active probing.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: ot-passive
+    action: asset-observed
+    category: discovery
+    severity: 8
+    message: Synthetic passive observation of controller metadata; no protocol command
+      emitted
+    fields: {}
+  - source: historian
+    action: authentication
+    category: authentication
+    severity: 7
+    message: Synthetic historian authentication from unusual engineering context
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.

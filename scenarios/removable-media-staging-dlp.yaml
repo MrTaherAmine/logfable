@@ -1,0 +1,223 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal activity?
+- Which identity, host, session, application, or network events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: removable-media-staging-dlp
+title: Removable-media staging with DLP and endpoint evidence
+summary: Endpoint telemetry represents local data staging and an attempted copy to synthetic removable
+  media, with DLP policy evidence and approved transfer workflows as benign lookalikes.
+tags:
+- insider
+- dlp
+- endpoint
+- removable-media
+domains:
+- enterprise
+platforms:
+- Windows
+estimated_events: 850
+duration: 4h
+environment:
+  preset: hybrid-enterprise
+telemetry:
+- edr
+- sysmon
+- windows-security
+- dlp
+detections:
+- name: Cross-source correlation for removable-media staging with dlp and endpoint evidence
+  expected: true
+ground_truth:
+  answers:
+  - Local staging followed by removable-media write metadata and DLP enforcement forms the core chain;
+    the scenario deliberately does not map removable copying to an unrelated ATT&CK exfiltration technique.
+steps:
+- id: local-staging
+  title: Local data staging
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1074.001
+    tactic: Collection
+    rationale: Synthetic file metadata represents local staging of multiple business documents.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-FA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: File analysis can identify unusual collection/staging patterns and file-volume changes.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: User behavior analysis can compare access volume with the user normal role.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: edr
+    action: file-staging
+    category: file
+    severity: 7
+    message: Synthetic EDR metadata records many files collected into a local staging location.
+    fields:
+      files: 240
+      content: NOT-INCLUDED
+  - source: sysmon
+    action: file-create-series
+    category: file
+    severity: 6
+    message: Synthetic host metadata records the staging file creation series.
+    fields:
+      archive: INERT-ARCHIVE-REFERENCE
+  benign_lookalikes:
+  - Approved offline transfer preparation or records retention may stage many files locally.
+  expected_detections:
+  - Correlate user role, source repositories, volume, staging path class, and business calendar.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: removable-copy
+  title: Attempted removable-media copy
+  after:
+  - local-staging
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack: []
+  d3fend:
+  - d3fend_id: D3-FA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: File analysis can correlate the staged content with removable-media write metadata.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-UDTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: User data transfer analysis can identify an unusual transfer volume or destination class.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: windows-security
+    action: removable-device-use
+    category: device
+    severity: 7
+    message: Synthetic endpoint audit records a removable device being mounted.
+    fields:
+      device: SIMULATED-USB-DEVICE
+  - source: dlp
+    action: removable-copy-attempt
+    category: data-transfer
+    severity: 9
+    message: Synthetic DLP audit records an attempted copy of staged files to removable media.
+    fields:
+      dlp_disposition: blocked
+      files: 240
+  benign_lookalikes:
+  - Approved encrypted removable media may be used for controlled offline transfer.
+  expected_detections:
+  - Require DLP disposition, device approval status, user role, and staged-file correlation.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: policy-response
+  title: DLP policy response
+  after:
+  - removable-copy
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack: []
+  d3fend:
+  - d3fend_id: D3-UDTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Transfer analysis can establish what was attempted and whether policy blocked or allowed
+      it.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: dlp
+    action: policy-enforcement
+    category: data-transfer
+    severity: 8
+    message: Synthetic DLP telemetry records enforcement and case creation.
+    fields:
+      disposition: blocked
+  - source: edr
+    action: user-notification
+    category: endpoint
+    severity: 4
+    message: Synthetic endpoint telemetry records a policy notification to the user.
+    fields:
+      case: DLP-SIM-2026
+  benign_lookalikes:
+  - Policy testing and DLP tuning exercises may intentionally generate blocked transfers.
+  expected_detections:
+  - Differentiate suspicious staging from approved DLP testing by case, change, and user context.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
