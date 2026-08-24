@@ -1,0 +1,78 @@
+{
+  "objects": [
+    {
+      "id": "D3-NTA",
+      "name": "Network Traffic Analysis",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-PMAD",
+      "name": "Protocol Metadata Anomaly Detection",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-CAA",
+      "name": "Connection Attempt Analysis",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-DNSTA",
+      "name": "DNS Traffic Analysis",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-ANAA",
+      "name": "Administrative Network Activity Analysis",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-NTSA",
+      "name": "Network Traffic Signature Analysis",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-UBA",
+      "name": "User Behavior Analysis",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-UGLPA",
+      "name": "User Geolocation Logon Pattern Analysis",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-UDTA",
+      "name": "User Data Transfer Analysis",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-CCSA",
+      "name": "Credential Compromise Scope Analysis",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-FA",
+      "name": "File Analysis",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-FCOA",
+      "name": "File Content Analysis",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-SFA",
+      "name": "System File Analysis",
+      "source_url": "https://d3fend.mitre.org/"
+    },
+    {
+      "id": "D3-NTF",
+      "name": "Network Traffic Filtering",
+      "source_url": "https://d3fend.mitre.org/"
+    }
+  ],
+  "ontology_hash": "8dfa80617d60143e351a8497a4777470c9a3851d8eb6b602a378343a55d54b83",
+  "profile": "bundled-content-index",
+  "source_url": "https://d3fend.mitre.org/",
+  "version": "1.5.0"
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/MrTaherAmine/logfable/schemas/scenario.schema.json",
+  "title": "LogFable Scenario 1.0.0",
+  "type": "object",
+  "required": ["schema_version","id","version","title","summary","authors","license","safety","knowledge","environment","steps","telemetry","questions","scoring"],
+  "properties": {
+    "schema_version": {"const":"1.0.0"},
+    "id": {"type":"string","pattern":"^[a-z0-9][a-z0-9-]+$"},
+    "version": {"type":"string"},
+    "title": {"type":"string","minLength":1},
+    "summary": {"type":"string","minLength":1},
+    "steps": {"type":"array","items":{"type":"object","required":["id","title","evidence"]}},
+    "telemetry": {"type":"array","items":{"type":"string"}}
+  },
+  "additionalProperties": true
+}

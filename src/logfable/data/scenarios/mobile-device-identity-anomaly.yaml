@@ -1,0 +1,233 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal activity?
+- Which identity, host, session, application, or network events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: mobile-device-identity-anomaly
+title: Mobile device identity anomaly with MDM correlation
+summary: A newly observed synthetic mobile device becomes associated with an unusual identity session
+  and SaaS activity; MDM compliance changes and normal device replacement form realistic lookalikes.
+tags:
+- mobile
+- identity
+- mdm
+- saas
+domains:
+- enterprise
+platforms:
+- Mobile
+- Identity Provider
+- SaaS
+estimated_events: 850
+duration: 4h
+environment:
+  preset: hybrid-enterprise
+telemetry:
+- mdm
+- entra
+- idp
+- oauth
+- m365
+- proxy
+detections:
+- name: Cross-source correlation for mobile device identity anomaly with mdm correlation
+  expected: true
+ground_truth:
+  answers:
+  - "The pivotal chain is first-seen mobile device \u2192 anomalous session context \u2192 unusual SaaS\
+    \ activity with the same identity/session timing."
+steps:
+- id: device-observed
+  title: New mobile device observed
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Initial Access
+    rationale: A valid identity is represented as authenticating from a newly observed mobile device.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UGLPA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Logon-pattern analysis can compare the new device and location against the user baseline.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: mdm
+    action: device-enrollment-observed
+    category: device
+    severity: 6
+    message: Synthetic MDM audit records a newly observed mobile device.
+    fields:
+      compliance: unknown
+      ownership: corporate
+  - source: entra
+    action: sign-in-success
+    category: authentication
+    severity: 7
+    message: Synthetic successful sign-in is associated with the newly observed device.
+    fields:
+      device_state: new
+  benign_lookalikes:
+  - Legitimate phone replacement can produce a new-device enrollment and fresh authentication.
+  expected_detections:
+  - Correlate first-seen device, identity, location, and enrollment state.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: session-anomaly
+  title: Session context changes
+  after:
+  - device-observed
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1539
+    tactic: Credential Access
+    rationale: The story represents anomalous use of an authenticated web session without exposing any
+      session material.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: User behavior analysis can compare session characteristics with the established baseline.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: idp
+    action: session-risk-change
+    category: authentication
+    severity: 7
+    message: Synthetic IdP session risk changes after the new-device sign-in.
+    fields:
+      risk: elevated
+  - source: oauth
+    action: token-use
+    category: authentication
+    severity: 7
+    message: Synthetic OAuth audit records access from the same unusual session context.
+    fields:
+      token: INERT-TOKEN-REFERENCE
+  benign_lookalikes:
+  - Risk can increase during legitimate roaming or mobile carrier changes.
+  expected_detections:
+  - Tie session-risk changes to the device enrollment and subsequent SaaS actions.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: saas-use
+  title: Unusual SaaS activity
+  after:
+  - session-anomaly
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1550.001
+    tactic: Defense Evasion
+    rationale: Synthetic application access-token use is represented through audit records only.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can compare SaaS access with the user normal application profile.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-UDTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Transfer analysis can identify unusual post-authentication access volume.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: m365
+    action: bulk-read
+    category: saas
+    severity: 7
+    message: Synthetic SaaS audit records an unusual burst of read operations.
+    fields:
+      items: 180
+  - source: proxy
+    action: mobile-saas-access
+    category: network
+    severity: 6
+    message: Synthetic proxy metadata correlates the same device session to SaaS access.
+    fields:
+      destination: portal.example
+  benign_lookalikes:
+  - Approved mobile eDiscovery or migration work may cause high-volume reads.
+  expected_detections:
+  - Correlate MDM, IdP, OAuth, SaaS, and proxy context before alerting.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.

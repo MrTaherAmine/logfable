@@ -1,0 +1,186 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: intermediate
+status: stable
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables: {}
+noise:
+  percentage: 95
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 5
+  max_ingestion_delay_seconds: 25
+  missing_event_rate: 0.003
+  duplicate_rate: 0.003
+questions:
+- Which identities and assets form the earliest correlated suspicious chain?
+- Which telemetry sources provide the strongest causal evidence?
+- Which benign lookalike could cause an overly broad detection to fire?
+- What visibility gap would most change confidence in the investigation?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: entities
+    points: 25
+  - criterion: evidence
+    points: 25
+  - criterion: detection-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+id: oauth-consent-persistence
+title: OAuth consent abuse and cloud identity persistence
+summary: A synthetic OAuth consent sequence creates durable application access without
+  using real tokens or external applications.
+tags:
+- oauth
+- cloud
+- identity
+domains:
+- enterprise
+platforms:
+- Office 365
+- SaaS
+estimated_events: 650
+duration: 3h
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+environment:
+  preset: cloud-native-saas
+telemetry:
+- entra
+- oauth
+- m365
+- cloud-control
+detections: []
+ground_truth:
+  answers:
+  - Consent is followed by application-token use and role persistence.
+steps:
+- id: consent
+  title: High-risk application consent
+  after: []
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1098
+    tactic: Persistence
+    rationale: Account/application permissions are modified to preserve access.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Analyze unusual authorization and consent behavior.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: oauth
+    action: consent-granted
+    category: authorization
+    severity: 8
+    message: Synthetic OAuth consent granted to fictitious application
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: token
+  title: Application access token used
+  after:
+  - consent
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1550.001
+    tactic: Defense Evasion
+    rationale: A synthetic application access token representation is used without
+      containing a real token.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-CCSA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Analyze identity activity to scope credential or token exposure.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: oauth
+    action: token-use
+    category: authentication
+    severity: 8
+    message: Synthetic placeholder application access token used
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: role
+  title: Cloud application role expanded
+  after:
+  - token
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1098.003
+    tactic: Persistence
+    rationale: Additional cloud role access is represented in audit telemetry.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Review anomalous cloud role assignment behavior.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: entra
+    action: service-principal-role-change
+    category: authorization
+    severity: 9
+    message: Synthetic service principal role assignment expanded
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.

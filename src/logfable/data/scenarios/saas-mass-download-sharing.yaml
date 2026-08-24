@@ -1,0 +1,227 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal
+  activity?
+- Which identity, host, session, and cloud/application events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: saas-mass-download-sharing
+title: SaaS mass download and suspicious sharing
+summary: A synthetic user performs an unusual burst of SaaS document reads and downloads,
+  then creates external sharing links, mixed with legitimate project migrations and
+  eDiscovery-style bulk access.
+tags:
+- saas
+- cloud
+- collection
+- exfiltration
+domains:
+- enterprise
+platforms:
+- SaaS
+- Office 365
+estimated_events: 950
+duration: 5h
+environment:
+  preset: cloud-native-saas
+telemetry:
+- m365
+- object-storage
+- proxy
+- idp
+- cloud-control
+detections:
+- name: Bulk SaaS access followed by external sharing
+  expected: true
+ground_truth:
+  answers:
+  - The suspicious chain combines unusual bulk access with a later external sharing
+    action from the same identity/session context.
+steps:
+- id: bulk-read
+  title: Unusual SaaS bulk read/download
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1530
+    tactic: Collection
+    rationale: Synthetic cloud/SaaS content is accessed in unusually high volume.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UDTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: User data transfer analysis can identify unusual download volume and
+      destinations.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can compare bulk access with the user peer group.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: m365
+    action: bulk-download
+    category: cloud
+    severity: 7
+    message: Synthetic user downloads an unusually large set of SaaS documents
+    fields: {}
+  - source: object-storage
+    action: bulk-read
+    category: cloud
+    severity: 7
+    message: Synthetic object access volume increases for the same identity
+    fields: {}
+  benign_lookalikes:
+  - Approved migrations, backups, eDiscovery and offline sync can create legitimate
+    bulk downloads.
+  expected_detections:
+  - Combine volume anomaly with user role, project context, device, and time-of-day.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.
+- id: external-share
+  title: External sharing link created
+  after:
+  - bulk-read
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1567.002
+    tactic: Exfiltration
+    rationale: Synthetic cloud sharing represents transfer through an external cloud
+      storage/service path.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UDTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Data-transfer analysis can flag unusual external sharing immediately
+      after bulk access.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: m365
+    action: external-share-create
+    category: authorization
+    severity: 8
+    message: Synthetic external sharing link is created for recently accessed documents
+    fields: {}
+  - source: cloud-control
+    action: sharing-policy-use
+    category: cloud
+    severity: 8
+    message: Synthetic cloud audit records external-sharing policy use
+    fields: {}
+  benign_lookalikes:
+  - Legitimate collaboration with external partners can require external sharing links.
+  expected_detections:
+  - Correlate high-volume access with external-sharing creation and recipient/domain
+    trust context.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.
+- id: followup-access
+  title: Shared content accessed from new context
+  after:
+  - external-share
+  delay_seconds:
+  - 20
+  - 180
+  probability: 0.55
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Collection
+    rationale: A valid session is used to access the shared content from a new synthetic
+      context.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UGLPA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Location/session analysis can identify a new access context for the
+      shared content.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: proxy
+    action: shared-content-access
+    category: network
+    severity: 7
+    message: Synthetic shared content is accessed from a new documentation-range network
+      context
+    fields: {}
+  benign_lookalikes:
+  - Partners can legitimately access shared content from unfamiliar networks.
+  expected_detections:
+  - Use sharing provenance plus access context rather than location anomaly alone.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.

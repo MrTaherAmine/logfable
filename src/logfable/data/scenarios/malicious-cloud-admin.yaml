@@ -1,0 +1,192 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: intermediate
+status: stable
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables: {}
+noise:
+  percentage: 95
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 5
+  max_ingestion_delay_seconds: 25
+  missing_event_rate: 0.003
+  duplicate_rate: 0.003
+questions:
+- Which identities and assets form the earliest correlated suspicious chain?
+- Which telemetry sources provide the strongest causal evidence?
+- Which benign lookalike could cause an overly broad detection to fire?
+- What visibility gap would most change confidence in the investigation?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: entities
+    points: 25
+  - criterion: evidence
+    points: 25
+  - criterion: detection-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+id: malicious-cloud-admin
+title: Compromised administrator causing destructive cloud changes
+summary: A privileged synthetic cloud administrator session creates persistence and
+  then represents destructive control-plane changes against fictitious resources.
+tags:
+- cloud
+- admin
+- impact
+domains:
+- enterprise
+platforms:
+- IaaS
+estimated_events: 600
+duration: 3h
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+environment:
+  preset: hybrid-enterprise
+telemetry:
+- entra
+- cloudtrail
+- azure-activity
+- gcp-audit
+- cloud-control
+detections: []
+ground_truth:
+  answers:
+  - Privilege use expands access before destructive synthetic resource changes.
+steps:
+- id: admin-login
+  title: Privileged cloud sign-in
+  after: []
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Initial Access
+    rationale: A privileged valid account is used anomalously.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UGLPA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Geolocation and behavior analysis can flag the admin session.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: entra
+    action: privileged-sign-in
+    category: authentication
+    severity: 9
+    message: Synthetic privileged cloud sign-in from unusual location
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: persist
+  title: Additional cloud identity created
+  after:
+  - admin-login
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1136.003
+    tactic: Persistence
+    rationale: A fictitious cloud account is created in audit telemetry.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can detect unusual account creation by administrators.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: cloud-control
+    action: cloud-account-create
+    category: identity
+    severity: 9
+    message: Synthetic cloud account created
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: destroy
+  title: Destructive resource changes represented
+  after:
+  - persist
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1485
+    tactic: Impact
+    rationale: Synthetic resource deletion records represent destructive changes without
+      interacting with cloud APIs.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Administrative behavior analysis can identify unusual destructive changes.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: cloudtrail
+    action: resource-delete
+    category: cloud
+    severity: 10
+    message: Synthetic cloud resource deletion audit event
+    fields: {}
+  - source: azure-activity
+    action: resource-delete
+    category: cloud
+    severity: 10
+    message: Synthetic cross-provider resource deletion audit event
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.

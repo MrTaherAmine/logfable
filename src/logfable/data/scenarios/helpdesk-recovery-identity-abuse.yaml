@@ -1,0 +1,233 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal
+  activity?
+- Which identity, host, session, and cloud/application events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: helpdesk-recovery-identity-abuse
+title: Help-desk account recovery followed by identity abuse
+summary: A synthetic support-mediated account recovery resets authentication state,
+  registers a new factor, and is followed by suspicious access; routine password resets
+  and device replacement provide realistic benign lookalikes.
+tags:
+- identity
+- helpdesk
+- account-recovery
+- mfa
+domains:
+- enterprise
+platforms:
+- Windows
+- SaaS
+- Office 365
+estimated_events: 850
+duration: 4h
+environment:
+  preset: mid-sized
+telemetry:
+- idp
+- entra
+- active-directory
+- m365
+- app-auth
+detections:
+- name: Recovery event followed by new factor and anomalous session
+  expected: true
+ground_truth:
+  answers:
+  - The account recovery becomes suspicious when a new authentication factor and unusual
+    session appear immediately afterward.
+steps:
+- id: recovery
+  title: Support-mediated account recovery
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Initial Access
+    rationale: The scenario represents abuse of a recovered valid account, not the
+      social-engineering mechanics.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can compare recovery frequency and context with the
+      user baseline.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: idp
+    action: account-recovery
+    category: authentication
+    severity: 6
+    message: Synthetic help-desk account recovery completes for a user
+    fields: {}
+  - source: active-directory
+    action: password-reset
+    category: authentication
+    severity: 6
+    message: Synthetic password reset is recorded for the same identity
+    fields: {}
+  benign_lookalikes:
+  - Legitimate forgotten-password recovery and device replacement are common help-desk
+    tasks.
+  expected_detections:
+  - Correlate recovery/reset events with ticket context, identity risk, and downstream
+    changes.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.
+- id: factor-register
+  title: New authentication factor registered
+  after:
+  - recovery
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1098.002
+    tactic: Persistence
+    rationale: A new additional email or authentication-related account path is represented
+      as account manipulation.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can identify unusual authentication-method changes
+      after support recovery.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: entra
+    action: authentication-method-added
+    category: identity
+    severity: 8
+    message: Synthetic new authentication method is registered after account recovery
+    fields: {}
+  benign_lookalikes:
+  - Users replacing phones legitimately register a new authentication method after
+    recovery.
+  expected_detections:
+  - Detect new authentication method registration shortly after support-assisted recovery.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.
+- id: post-recovery-access
+  title: Recovered identity accesses sensitive SaaS
+  after:
+  - factor-register
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Persistence
+    rationale: The recovered valid account continues to be used for authenticated
+      access.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UGLPA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Logon-pattern analysis can compare post-recovery access with normal
+      device and location patterns.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: User behavior analysis can identify unusual application access after
+      recovery.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: m365
+    action: sensitive-mail-access
+    category: email
+    severity: 8
+    message: Synthetic recovered account accesses sensitive mailbox content
+    fields: {}
+  - source: app-auth
+    action: privileged-feature-access
+    category: authorization
+    severity: 8
+    message: Synthetic recovered identity accesses an unusual privileged application
+      feature
+    fields: {}
+  benign_lookalikes:
+  - A legitimate user returning after account recovery may immediately access important
+    business applications.
+  expected_detections:
+  - Require recovery + new factor + anomalous session/application activity, not reset
+    events alone.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands or
+    live credentials are emitted.

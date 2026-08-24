@@ -1,0 +1,243 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: intermediate
+status: stable
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables: {}
+noise:
+  percentage: 95
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 5
+  max_ingestion_delay_seconds: 25
+  missing_event_rate: 0.003
+  duplicate_rate: 0.003
+questions:
+- Which identities and assets form the earliest correlated suspicious chain?
+- Which telemetry sources provide the strongest causal evidence?
+- Which benign lookalike could cause an overly broad detection to fire?
+- What visibility gap would most change confidence in the investigation?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: entities
+    points: 25
+  - criterion: evidence
+    points: 25
+  - criterion: detection-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+id: ransomware-enterprise
+title: Ransomware precursor chain and simulated impact
+summary: A safe ransomware exercise models remote access, defense impairment signals,
+  and high-volume synthetic file-change impact without malware or executable payloads.
+tags:
+- ransomware
+- endpoint
+- identity
+domains:
+- enterprise
+platforms:
+- Windows
+- Linux
+estimated_events: 600
+duration: 6h
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+environment:
+  preset: hybrid-enterprise
+telemetry:
+- windows-security
+- sysmon
+- powershell
+- edr
+- dns
+- firewall
+- vpn
+- cloudtrail
+- email-trace
+- cicd
+- auditd
+- proxy
+detections: []
+ground_truth:
+  answers:
+  - Remote access precedes defensive degradation signals and synthetic mass file-change
+    impact.
+steps:
+- id: remote
+  title: Remote access with valid credentials
+  after: []
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Initial Access
+    rationale: A valid identity begins the precursor chain.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  - technique_id: T1021.001
+    tactic: Lateral Movement
+    rationale: Synthetic remote desktop session evidence represents remote access.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UGLPA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Unusual logon pattern analysis can expose remote access anomalies.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-ANAA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Administrative network activity analysis can highlight remote management
+      use.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: vpn
+    action: vpn-login
+    category: authentication
+    severity: 7
+    message: Synthetic VPN session established by unusual source
+    fields: {}
+  - source: windows-security
+    action: remote-logon
+    category: authentication
+    severity: 8
+    message: Synthetic remote interactive logon recorded
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: impair
+  title: Security telemetry degradation
+  after:
+  - remote
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1562.001
+    tactic: Defense Evasion
+    rationale: Synthetic security-control state changes represent attempted defense
+      impairment.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-SFA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: System file and log analysis can reveal tampering or security-service
+      state change evidence.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: edr
+    action: sensor-state-change
+    category: security
+    severity: 9
+    message: Synthetic endpoint sensor reports reduced visibility; no disabling command
+      is supplied
+    fields: {}
+  - source: windows-security
+    action: service-state-change
+    category: system
+    severity: 8
+    message: Synthetic security service state change logged
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: impact
+  title: High-volume synthetic file changes
+  after:
+  - impair
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1486
+    tactic: Impact
+    rationale: High-volume synthetic file-change metadata represents ransomware impact
+      without encrypting data.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components:
+    - DC0039
+    - DC0040
+    - DC0059
+    - DC0061
+  d3fend:
+  - d3fend_id: D3-FA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: File analysis can examine abnormal file change patterns.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-SFA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: System file analysis can identify widespread unexpected changes.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: sysmon
+    action: file-change
+    category: file
+    severity: 10
+    message: Synthetic bulk file-change event; no file is modified on the host
+    fields: {}
+  - source: edr
+    action: file-activity-burst
+    category: file
+    severity: 10
+    message: Synthetic EDR observes abnormal file activity volume
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.

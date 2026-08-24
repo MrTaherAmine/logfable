@@ -1,0 +1,196 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: intermediate
+status: stable
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables: {}
+noise:
+  percentage: 95
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 5
+  max_ingestion_delay_seconds: 25
+  missing_event_rate: 0.003
+  duplicate_rate: 0.003
+questions:
+- Which identities and assets form the earliest correlated suspicious chain?
+- Which telemetry sources provide the strongest causal evidence?
+- Which benign lookalike could cause an overly broad detection to fire?
+- What visibility gap would most change confidence in the investigation?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: entities
+    points: 25
+  - criterion: evidence
+    points: 25
+  - criterion: detection-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+id: cicd-supply-chain
+title: CI/CD or software supply-chain compromise
+summary: A synthetic source-control and CI/CD sequence represents unauthorized pipeline
+  changes and artifact publication using fictitious repositories and inert artifacts.
+tags:
+- cicd
+- supply-chain
+- source-control
+domains:
+- enterprise
+platforms:
+- SaaS
+- Containers
+estimated_events: 700
+duration: 4h
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+environment:
+  preset: cloud-native-saas
+telemetry:
+- git-audit
+- cicd
+- artifact-registry
+- registry
+- oauth
+- cloud-control
+detections: []
+ground_truth:
+  answers:
+  - Unauthorized pipeline configuration change precedes a synthetic build and artifact
+    publication.
+steps:
+- id: repo
+  title: Repository access anomaly
+  after: []
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Initial Access
+    rationale: A valid developer identity is used outside its normal context.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Developer behavior analysis can highlight unusual repository access.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: git-audit
+    action: repo-login
+    category: authentication
+    severity: 7
+    message: Synthetic source-control login from unusual source
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: pipeline
+  title: Pipeline modified
+  after:
+  - repo
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1195.002
+    tactic: Initial Access
+    rationale: Synthetic CI configuration change represents supply-chain compromise
+      without malicious build content.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-SFA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Configuration-file monitoring can identify unauthorized pipeline changes.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: git-audit
+    action: pipeline-file-change
+    category: configuration
+    severity: 9
+    message: Synthetic CI pipeline configuration modified
+    fields: {}
+  - source: cicd
+    action: build-triggered
+    category: cicd
+    severity: 8
+    message: Synthetic build triggered from changed pipeline
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: artifact
+  title: Artifact published
+  after:
+  - pipeline
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1195.002
+    tactic: Initial Access
+    rationale: Synthetic artifact publication extends the represented supply-chain
+      chain.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-FA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: File/artifact analysis can inspect produced packages before promotion.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: artifact-registry
+    action: artifact-publish
+    category: cicd
+    severity: 9
+    message: Synthetic inert artifact version 2026.03.example published
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.

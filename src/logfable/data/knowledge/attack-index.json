@@ -1,0 +1,602 @@
+{
+  "objects": [
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1110.003",
+      "name": "Password Spraying",
+      "revoked": false,
+      "tactics": [
+        "Credential Access"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1078",
+      "name": "Valid Accounts",
+      "revoked": false,
+      "tactics": [
+        "Defense Evasion",
+        "Persistence",
+        "Privilege Escalation",
+        "Initial Access"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1098",
+      "name": "Account Manipulation",
+      "revoked": false,
+      "tactics": [
+        "Persistence",
+        "Privilege Escalation"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1098.003",
+      "name": "Additional Cloud Roles",
+      "revoked": false,
+      "tactics": [
+        "Persistence",
+        "Privilege Escalation"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1550.001",
+      "name": "Application Access Token",
+      "revoked": false,
+      "tactics": [
+        "Defense Evasion",
+        "Lateral Movement"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1528",
+      "name": "Steal Application Access Token",
+      "revoked": false,
+      "tactics": [
+        "Credential Access"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1562.001",
+      "name": "Impair Defenses",
+      "revoked": false,
+      "tactics": [
+        "Defense Evasion"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1486",
+      "name": "Data Encrypted for Impact",
+      "revoked": false,
+      "tactics": [
+        "Impact"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1530",
+      "name": "Data from Cloud Storage",
+      "revoked": false,
+      "tactics": [
+        "Collection"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1567.002",
+      "name": "Exfiltration to Cloud Storage",
+      "revoked": false,
+      "tactics": [
+        "Exfiltration"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1136.003",
+      "name": "Cloud Account",
+      "revoked": false,
+      "tactics": [
+        "Persistence"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1485",
+      "name": "Data Destruction",
+      "revoked": false,
+      "tactics": [
+        "Impact"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1074.001",
+      "name": "Local Data Staging",
+      "revoked": false,
+      "tactics": [
+        "Collection"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1041",
+      "name": "Exfiltration Over C2 Channel",
+      "revoked": false,
+      "tactics": [
+        "Exfiltration"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1190",
+      "name": "Exploit Public-Facing Application",
+      "revoked": false,
+      "tactics": [
+        "Initial Access"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1505.003",
+      "name": "Web Shell",
+      "revoked": false,
+      "tactics": [
+        "Persistence"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1613",
+      "name": "Container and Resource Discovery",
+      "revoked": false,
+      "tactics": [
+        "Discovery"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1611",
+      "name": "Escape to Host",
+      "revoked": false,
+      "tactics": [
+        "Privilege Escalation"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1195.002",
+      "name": "Compromise Software Supply Chain",
+      "revoked": false,
+      "tactics": [
+        "Initial Access"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1552.001",
+      "name": "Credentials In Files",
+      "revoked": false,
+      "tactics": [
+        "Credential Access"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1021.001",
+      "name": "Remote Desktop Protocol",
+      "revoked": false,
+      "tactics": [
+        "Lateral Movement"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1021.006",
+      "name": "Windows Remote Management",
+      "revoked": false,
+      "tactics": [
+        "Lateral Movement"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1556.006",
+      "name": "Multi-Factor Authentication",
+      "revoked": false,
+      "tactics": [
+        "Credential Access"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1539",
+      "name": "Steal Web Session Cookie",
+      "revoked": false,
+      "tactics": [
+        "Credential Access"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1565.001",
+      "name": "Stored Data Manipulation",
+      "revoked": false,
+      "tactics": [
+        "Impact"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "ics",
+      "id": "T0859",
+      "name": "Valid Accounts",
+      "revoked": false,
+      "tactics": [
+        "ICS Initial Access / Persistence"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "ics",
+      "id": "T0886",
+      "name": "Remote Services",
+      "revoked": false,
+      "tactics": [
+        "ICS Lateral Movement"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "ics",
+      "id": "T0846",
+      "name": "Remote System Discovery",
+      "revoked": false,
+      "tactics": [
+        "ICS Discovery"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1114.003",
+      "name": "Email Forwarding Rule",
+      "revoked": false,
+      "tactics": [
+        "Collection"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1098.002",
+      "name": "Additional Email Delegate Permissions",
+      "revoked": false,
+      "tactics": [
+        "Persistence"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DS001",
+      "name": "DS001",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DS002",
+      "name": "DS002",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DS003",
+      "name": "DS003",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DS004",
+      "name": "DS004",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DS005",
+      "name": "DS005",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "AN001",
+      "name": "AN001",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "AN002",
+      "name": "AN002",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "AN003",
+      "name": "AN003",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "AN004",
+      "name": "AN004",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "AN005",
+      "name": "AN005",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DC001",
+      "name": "DC001",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DC002",
+      "name": "DC002",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DC003",
+      "name": "DC003",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DC004",
+      "name": "DC004",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DC005",
+      "name": "DC005",
+      "revoked": false,
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "T1110.004",
+      "name": "Credential Stuffing",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/techniques/T1110/004/",
+      "tactics": [
+        "Credential Access"
+      ],
+      "type": "attack-pattern"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DET0460",
+      "name": "Credential Stuffing Detection via Reused Breached Credentials Across Services",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/detectionstrategies/DET0460/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "AN1265",
+      "name": "Credential stuffing against cloud identity services from one source",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/detectionstrategies/DET0460/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DC0002",
+      "name": "User Account Authentication",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/detectionstrategies/DET0460/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DET0490",
+      "name": "Detection Strategy for Container and Resource Discovery",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/detectionstrategies/DET0490/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "AN1352",
+      "name": "Container and Resource Discovery analytic",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/detectionstrategies/DET0490/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DC0037",
+      "name": "Pod Enumeration",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/datacomponents/DC0037/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DC0091",
+      "name": "Container Enumeration",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/detectionstrategies/DET0490/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DET0487",
+      "name": "Distributed Password Spraying via Authentication Failures Across Multiple Accounts",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/detectionstrategies/DET0487/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "AN1336",
+      "name": "Password spraying authentication-failure analytic for Windows",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/detectionstrategies/DET0487/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "AN1339",
+      "name": "Password spraying authentication-failure analytic for identity providers",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/detectionstrategies/DET0487/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DC0039",
+      "name": "File Creation",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/datacomponents/DC0039/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DC0040",
+      "name": "File Deletion",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/datacomponents/DC0040/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DC0059",
+      "name": "File Metadata",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/datacomponents/DC0059/",
+      "type": "detection-reference"
+    },
+    {
+      "deprecated": false,
+      "domain": "enterprise",
+      "id": "DC0061",
+      "name": "File Modification",
+      "revoked": false,
+      "source_url": "https://attack.mitre.org/datacomponents/DC0061/",
+      "type": "detection-reference"
+    }
+  ],
+  "profile": "bundled-content-index",
+  "source_release": "https://github.com/mitre-attack/attack-stix-data/releases/tag/v19.2",
+  "source_url": "https://github.com/mitre-attack/attack-stix-data",
+  "version": "19.2"
+}

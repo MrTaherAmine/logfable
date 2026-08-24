@@ -1,0 +1,180 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: intermediate
+status: stable
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables: {}
+noise:
+  percentage: 95
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 5
+  max_ingestion_delay_seconds: 25
+  missing_event_rate: 0.003
+  duplicate_rate: 0.003
+questions:
+- Which identities and assets form the earliest correlated suspicious chain?
+- Which telemetry sources provide the strongest causal evidence?
+- Which benign lookalike could cause an overly broad detection to fire?
+- What visibility gap would most change confidence in the investigation?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: entities
+    points: 25
+  - criterion: evidence
+    points: 25
+  - criterion: detection-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+id: webapp-webshell
+title: Web application compromise followed by synthetic web-shell activity
+summary: A public application receives exploit-like requests followed by inert synthetic
+  server-side persistence and command-execution metadata; no exploit or usable web
+  shell is included.
+tags:
+- web
+- application
+- persistence
+domains:
+- enterprise
+platforms:
+- Linux
+estimated_events: 700
+duration: 3h
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: abstracted
+environment:
+  preset: cloud-native-saas
+telemetry:
+- waf
+- nginx
+- apache
+- edr
+- auditd
+- dns
+- firewall
+detections: []
+ground_truth:
+  answers:
+  - Exploit-like requests precede creation of an inert server-side artifact and synthetic
+    child-process metadata.
+steps:
+- id: exploit
+  title: Exploit-like HTTP request represented
+  after: []
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1190
+    tactic: Initial Access
+    rationale: Synthetic WAF and access events represent exploitation attempts without
+      exploit syntax.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-NTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Analyze network requests for anomalous web traffic.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-NTSA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Traffic signature analysis may identify known patterns; tuning is required.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: waf
+    action: request-blocked
+    category: web
+    severity: 8
+    message: Synthetic exploit-like request pattern [ABSTRACTED] observed by WAF
+    fields: {}
+  - source: nginx
+    action: http-request
+    category: web
+    severity: 7
+    message: Synthetic suspicious HTTP request to /upload.example-path
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: webshell
+  title: Inert server-side persistence evidence
+  after:
+  - exploit
+  delay_seconds:
+  - 20
+  - 120
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1505.003
+    tactic: Persistence
+    rationale: Synthetic metadata represents a web-shell-like artifact but contains
+      no executable server-side code.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-FCOA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: File content analysis is a defensive opportunity for suspicious server-side
+      artifacts.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-SFA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: System file analysis can detect unauthorized web-root changes.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: edr
+    action: file-create
+    category: file
+    severity: 9
+    message: Synthetic inert placeholder file created under web root
+    fields: {}
+  - source: auditd
+    action: process-start
+    category: process
+    severity: 9
+    message: Synthetic child process metadata [NO COMMAND] associated with web service
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.

@@ -1,0 +1,253 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal activity?
+- Which identity, host, session, application, or network events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: it-ot-vendor-remote-access-misuse
+title: IT/OT vendor remote-access misuse using passive metadata
+summary: A synthetic vendor identity enters through remote access, traverses an OT gateway, and performs
+  broad passive discovery against industrial-zone assets while an approved maintenance window provides
+  the central benign lookalike.
+tags:
+- ot
+- ics
+- vendor
+- remote-access
+domains:
+- enterprise
+- ics
+platforms:
+- ICS
+- Windows
+- VPN
+estimated_events: 1000
+duration: 4h
+environment:
+  preset: segmented-it-ot
+telemetry:
+- vpn
+- ot-remote
+- ot-firewall
+- engineering-workstation
+- historian
+- ot-passive
+detections:
+- name: Cross-source correlation for it/ot vendor remote-access misuse using passive metadata
+  expected: true
+ground_truth:
+  answers:
+  - The defensive question is whether vendor access stayed within the approved maintenance scope; all
+    OT evidence is passive metadata and contains no control commands.
+steps:
+- id: vendor-login
+  title: Vendor remote-access login
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T0859
+    tactic: ICS Initial Access / Persistence
+    rationale: A valid synthetic vendor account is represented as accessing the OT remote gateway.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-UGLPA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Logon-pattern analysis can compare vendor access with approved source, time, and maintenance
+      schedule.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can baseline vendor identity access frequency and target zones.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: vpn
+    action: vendor-session-start
+    category: authentication
+    severity: 7
+    message: Synthetic VPN telemetry records a vendor remote-access session.
+    fields:
+      vendor: Vendor-Simulated
+  - source: ot-remote
+    action: gateway-authentication
+    category: authentication
+    severity: 8
+    message: Synthetic OT remote-access gateway records the same vendor identity.
+    fields:
+      access: approved-path
+  benign_lookalikes:
+  - Planned vendor maintenance legitimately uses the same remote-access gateway.
+  expected_detections:
+  - Correlate vendor identity, maintenance window, approved source, ticket, and target zone.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: ot-remote-service
+  title: Remote service used toward engineering zone
+  after:
+  - vendor-login
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T0886
+    tactic: ICS Lateral Movement
+    rationale: Synthetic OT gateway and firewall metadata represents remote-service access between approved
+      zones.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-NTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Network traffic analysis can correlate remote gateway sessions with OT-zone flows.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-NTF
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Network traffic filtering can constrain vendor paths to approved engineering assets.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: ot-firewall
+    action: vendor-zone-connection
+    category: network
+    severity: 8
+    message: Synthetic segmentation firewall records vendor traffic into the engineering zone.
+    fields:
+      zone: engineering-sim
+  - source: engineering-workstation
+    action: remote-session-observed
+    category: authentication
+    severity: 8
+    message: Synthetic engineering-workstation telemetry records a remote session.
+    fields:
+      session: INERT-OT-SESSION
+  benign_lookalikes:
+  - Approved vendor support often requires remote access to an engineering workstation.
+  expected_detections:
+  - Compare actual destination scope with the approved maintenance work order.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: passive-discovery
+  title: Broad OT asset discovery metadata
+  after:
+  - ot-remote-service
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T0846
+    tactic: ICS Discovery
+    rationale: Synthetic passive metadata represents unusually broad remote-system discovery without issuing
+      any control command.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-PMAD
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Protocol metadata anomaly detection can compare breadth and sequence of industrial asset
+      observations.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-NTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Network traffic analysis can identify access to systems outside the approved vendor scope.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: ot-passive
+    action: asset-observation-burst
+    category: network
+    severity: 8
+    message: Synthetic passive industrial metadata records broad asset observation.
+    fields:
+      assets: 38
+      commands: NONE
+  - source: historian
+    action: authentication-read
+    category: authentication
+    severity: 6
+    message: Synthetic historian telemetry records read-only authentication from the same session.
+    fields:
+      mode: read-only
+  benign_lookalikes:
+  - Asset inventory, commissioning, and maintenance tools may legitimately enumerate many OT assets.
+  expected_detections:
+  - Use maintenance scope, zone boundaries, protocol metadata, and asset allowlists; never infer physical-process
+    manipulation from passive evidence alone.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.

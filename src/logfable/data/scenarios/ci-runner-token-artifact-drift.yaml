@@ -1,0 +1,237 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal activity?
+- Which identity, host, session, application, or network events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: ci-runner-token-artifact-drift
+title: CI runner token misuse and artifact provenance drift
+summary: CI/CD audit data represents unusual runner identity use, pipeline-definition drift, and an artifact
+  published from an unexpected provenance chain without embedding source code, secrets, or malicious packages.
+tags:
+- cicd
+- supply-chain
+- identity
+- artifact
+domains:
+- enterprise
+platforms:
+- CI/CD
+- SaaS
+- Containers
+estimated_events: 950
+duration: 4h
+environment:
+  preset: hybrid-enterprise
+telemetry:
+- cicd
+- git-audit
+- artifact-registry
+- registry
+- cloud-control
+detections:
+- name: Cross-source correlation for ci runner token misuse and artifact provenance drift
+  expected: true
+ground_truth:
+  answers:
+  - The high-confidence chain requires unusual runner identity use, an unapproved pipeline-definition
+    drift, and artifact provenance that no longer matches the approved build path.
+steps:
+- id: runner-token-use
+  title: Runner identity used from unusual context
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1528
+    tactic: Credential Access
+    rationale: The story represents suspected access-token exposure through synthetic CI audit metadata
+      only.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-CCSA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Credential-compromise scope analysis can enumerate jobs and resources touched by the runner
+      identity.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Behavior analysis can compare runner use with normal executor/network patterns.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: cicd
+    action: runner-auth
+    category: authentication
+    severity: 8
+    message: Synthetic CI audit records runner authentication from an unusual context.
+    fields:
+      runner: runner-sim-07
+  - source: cloud-control
+    action: runner-api-use
+    category: cloud
+    severity: 6
+    message: Synthetic cloud audit records API use by the same runner identity.
+    fields:
+      scope: read-only-sim
+  benign_lookalikes:
+  - Ephemeral autoscaled runners may legitimately appear from previously unseen infrastructure.
+  expected_detections:
+  - Correlate runner identity, expected executor pool, source network, job, and token audience.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: pipeline-drift
+  title: Pipeline definition changes
+  after:
+  - runner-token-use
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1195.002
+    tactic: Initial Access
+    rationale: Synthetic source-control audit represents a supply-chain relevant pipeline-definition change,
+      not executable content.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-FA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: File analysis can compare pipeline metadata and approved baselines without executing content.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: git-audit
+    action: pipeline-config-change
+    category: source-control
+    severity: 8
+    message: Synthetic repository audit records a pipeline configuration change.
+    fields:
+      path: ci/pipeline-simulated-config
+  - source: cicd
+    action: pipeline-definition-drift
+    category: cicd
+    severity: 8
+    message: Synthetic CI audit records the pipeline definition hash differing from the approved baseline.
+    fields:
+      hash: SHA256-INERT-PIPELINE
+  benign_lookalikes:
+  - Approved release engineering changes may legitimately modify pipeline definitions.
+  expected_detections:
+  - Require provenance, change approval, author identity, and protected-branch context.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: artifact-drift
+  title: Unexpected artifact provenance
+  after:
+  - pipeline-drift
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1195.002
+    tactic: Initial Access
+    rationale: Synthetic registry metadata represents an artifact provenance chain inconsistent with the
+      approved build path.
+    confidence: high
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-FA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: File and metadata analysis can compare artifact digests, provenance attestations, and expected
+      builders.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: artifact-registry
+    action: artifact-publish
+    category: cicd
+    severity: 9
+    message: Synthetic artifact registry records publication from an unexpected builder.
+    fields:
+      artifact: package-simulated-1.2.3
+      digest: SHA256-INERT-ARTIFACT
+  - source: registry
+    action: image-provenance-mismatch
+    category: cloud
+    severity: 8
+    message: Synthetic registry metadata records provenance mismatch for a simulated image.
+    fields:
+      signature: INERT-SIGNATURE-REF
+  benign_lookalikes:
+  - Emergency rebuilds or migration to a new runner pool can legitimately change artifact provenance.
+  expected_detections:
+  - Correlate protected-branch changes, runner identity, build attestation, artifact digest, and release
+    approval.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.

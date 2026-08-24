@@ -1,0 +1,234 @@
+schema_version: 1.0.0
+version: 1.0.0
+difficulty: advanced
+status: experimental
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+variables:
+  test_seeds:
+  - 2026
+  - 2027
+  - 314159
+noise:
+  percentage: 96
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 8
+  max_ingestion_delay_seconds: 45
+  missing_event_rate: 0.004
+  duplicate_rate: 0.004
+questions:
+- What is the earliest evidence that distinguishes the suspicious chain from normal activity?
+- Which identity, host, session, application, or network events should be correlated?
+- Which benign lookalike is most likely to trigger an overly broad detection?
+- Which telemetry impairment or visibility gap most changes investigative confidence?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: identity-and-entities
+    points: 25
+  - criterion: evidence-and-correlation
+    points: 25
+  - criterion: detection-tuning-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+  payloads: inert-placeholders-only
+id: dns-tunneling-like-metadata
+title: DNS tunneling-like metadata anomaly without operational payloads
+summary: Passive DNS and network metadata exhibit long labels, elevated query volume, entropy-like features,
+  and regular timing consistent with a tunneling-like anomaly, but no executable tunneling syntax or recoverable
+  payload is present.
+tags:
+- dns
+- network
+- exfiltration
+- anomaly
+domains:
+- enterprise
+platforms:
+- Network
+estimated_events: 1200
+duration: 3h
+environment:
+  preset: hybrid-enterprise
+telemetry:
+- dns
+- zeek
+- firewall
+- netflow
+- proxy
+detections:
+- name: Cross-source correlation for dns tunneling-like metadata anomaly without operational payloads
+  expected: true
+ground_truth:
+  answers:
+  - The scenario tests whether analysts can distinguish suspicious DNS shape and timing from benign encoded/telemetry
+    DNS without being given any operational tunneling content.
+steps:
+- id: dns-shape-change
+  title: DNS query-shape anomaly
+  after: []
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1041
+    tactic: Exfiltration
+    rationale: The metadata pattern is consistent with data transfer over an application channel; it is
+      an investigative hypothesis, not proof of exfiltration.
+    confidence: medium
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-DNSTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: DNS traffic analysis can compare label length, frequency, response type, and temporal regularity.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-NTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Network traffic analysis can correlate DNS metadata with host and egress behavior.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: dns
+    action: query-anomaly
+    category: dns
+    severity: 7
+    message: Synthetic DNS metadata shows unusually long high-entropy-like labels under a .example domain.
+    fields:
+      domain: telemetry.example
+      payload: NOT-RECOVERABLE
+  - source: zeek
+    action: dns-metadata-anomaly
+    category: dns
+    severity: 7
+    message: Zeek-inspired synthetic metadata records the same query-shape anomaly.
+    fields:
+      mean_label_length: 58
+  benign_lookalikes:
+  - Security products, CDNs, telemetry agents, and tracking systems can legitimately generate long or
+    encoded-looking DNS labels.
+  expected_detections:
+  - Baseline domains, label length, query types, client processes, timing, and approved telemetry agents.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: regular-burst
+  title: Regular DNS burst pattern
+  after:
+  - dns-shape-change
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1041
+    tactic: Exfiltration
+    rationale: Regular synthetic DNS bursts extend the exfiltration-over-channel hypothesis without containing
+      operational tunneling instructions.
+    confidence: medium
+    detection_strategies: []
+    analytics: []
+    data_components: []
+  d3fend:
+  - d3fend_id: D3-DNSTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Temporal DNS analysis can identify regular burst intervals and unusual response ratios.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-NTSA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Traffic signature analysis can compare the metadata pattern with known benign service behavior.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: netflow
+    action: dns-flow-burst
+    category: network
+    severity: 6
+    message: Synthetic flow records show regular DNS traffic bursts from one endpoint.
+    fields:
+      interval_seconds: 30
+  - source: firewall
+    action: dns-egress-series
+    category: network
+    severity: 6
+    message: Synthetic firewall metadata records repeated DNS egress by the same endpoint.
+    fields:
+      destination_class: approved-resolver
+  benign_lookalikes:
+  - Health checks and telemetry beacons can produce highly regular DNS traffic.
+  expected_detections:
+  - Require host/process context and destination/domain baselines before escalating.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
+- id: host-correlation
+  title: Endpoint and proxy correlation
+  after:
+  - regular-burst
+  delay_seconds:
+  - 20
+  - 180
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack: []
+  d3fend:
+  - d3fend_id: D3-NTA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Cross-source traffic analysis can connect the DNS anomaly to the originating host and surrounding
+      web activity.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: proxy
+    action: host-network-context
+    category: network
+    severity: 5
+    message: Synthetic proxy metadata records otherwise normal browsing around the DNS anomaly.
+    fields:
+      destination: portal.example
+  - source: dns
+    action: continued-anomaly
+    category: dns
+    severity: 8
+    message: Synthetic DNS anomaly continues while normal web activity remains present.
+    fields:
+      domain: telemetry.example
+  benign_lookalikes:
+  - A legitimate monitoring agent may continue anomalous-looking DNS while the user browses normally.
+  expected_detections:
+  - Correlate DNS metadata to host process inventory or approved-agent context where available.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands, credential material, executable
+    payloads, or live malicious infrastructure are emitted.
