@@ -1,0 +1,51 @@
+[
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "entra"
+    ],
+    "mapping_rationale": "A privileged valid account is used anomalously.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "admin-login",
+    "tactic": "Initial Access",
+    "technique_id": "T1078"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "cloud-control"
+    ],
+    "mapping_rationale": "A fictitious cloud account is created in audit telemetry.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "persist",
+    "tactic": "Persistence",
+    "technique_id": "T1136.003"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "azure-activity",
+      "cloudtrail"
+    ],
+    "mapping_rationale": "Synthetic resource deletion records represent destructive changes without interacting with cloud APIs.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "destroy",
+    "tactic": "Impact",
+    "technique_id": "T1485"
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "event_id": "1de1b127-a6ac-555c-5980-de32970edda9",
+    "step": "admin-login",
+    "techniques": [
+      "T1078"
+    ],
+    "event_time": "2026-03-02T08:01:29+00:00",
+    "observed_time": "2026-03-02T08:01:40+00:00",
+    "source_family": "entra",
+    "correlation_id": "b6974864-2fc3-b538-0897-38b3166417ae",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "4539bd77-ac12-9544-84e3-49acf4cbd69d",
+    "step": "persist",
+    "techniques": [
+      "T1136.003"
+    ],
+    "event_time": "2026-03-02T08:02:01+00:00",
+    "observed_time": "2026-03-02T08:02:04+00:00",
+    "source_family": "cloud-control",
+    "correlation_id": "4420627f-5c00-7f4e-4b30-6bef25f0af2e",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "1ab21885-47e3-3b47-0a60-60df9b4a1826",
+    "step": "destroy",
+    "techniques": [
+      "T1485"
+    ],
+    "event_time": "2026-03-02T08:03:14+00:00",
+    "observed_time": "2026-03-02T08:03:29+00:00",
+    "source_family": "azure-activity",
+    "correlation_id": "5991998e-976d-9d36-4f2b-35e8d4a44a1d",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "6b6eeb4e-872e-7eb7-b2f9-20c9368061e0",
+    "step": "destroy",
+    "techniques": [
+      "T1485"
+    ],
+    "event_time": "2026-03-02T08:03:14+00:00",
+    "observed_time": "2026-03-02T08:03:35+00:00",
+    "source_family": "cloudtrail",
+    "correlation_id": "5991998e-976d-9d36-4f2b-35e8d4a44a1d",
+    "user": "user-0001",
+    "host": "host-0001"
+  }
+]

@@ -1,0 +1,5 @@
+scenario_step,attack_id,d3fend_id,mapping_type,confidence
+spray,T1110.003,D3-UBA,project-curated,medium
+spray,T1110.003,D3-CAA,project-curated,medium
+success,T1078,D3-UGLPA,project-curated,medium
+success,T1078,D3-CCSA,project-curated,medium

@@ -1,0 +1,57 @@
+[
+  {
+    "attack_id": "T1078",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UGLPA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "entra"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Geolocation and behavior analysis can flag the admin session.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "admin-login",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1136.003",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UBA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "cloud-control"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Behavior analysis can detect unusual account creation by administrators.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "persist",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1485",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UBA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "azure-activity",
+      "cloudtrail"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Administrative behavior analysis can identify unusual destructive changes.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "destroy",
+    "source_url": "https://d3fend.mitre.org/"
+  }
+]

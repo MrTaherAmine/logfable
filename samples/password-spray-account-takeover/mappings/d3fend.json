@@ -1,0 +1,78 @@
+[
+  {
+    "attack_id": "T1110.003",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UBA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "entra",
+      "idp"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "User behavior analysis can identify distributed authentication anomalies.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "spray",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1110.003",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-CAA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "entra",
+      "idp"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Connection-attempt analysis can expose repeated failed access attempts.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "spray",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1078",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UGLPA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "entra",
+      "vpn"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Geolocation logon-pattern analysis can highlight an unusual sign-in origin.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "success",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1078",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-CCSA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "entra",
+      "vpn"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Credential compromise scope analysis can bound subsequent use.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "success",
+    "source_url": "https://d3fend.mitre.org/"
+  }
+]

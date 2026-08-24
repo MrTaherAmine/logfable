@@ -1,0 +1,53 @@
+[
+  {
+    "step": "consent",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "oauth"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  },
+  {
+    "step": "token",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "oauth"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  },
+  {
+    "step": "role",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "entra"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  }
+]

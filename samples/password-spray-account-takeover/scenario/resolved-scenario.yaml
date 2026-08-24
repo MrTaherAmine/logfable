@@ -1,0 +1,181 @@
+schema_version: 1.0.0
+id: password-spray-account-takeover
+version: 1.0.0
+title: Password spray leading to account takeover
+summary: A distributed synthetic password spray produces authentication failures before
+  one valid account is used from an unusual documentation-range address.
+difficulty: intermediate
+status: stable
+authors:
+- Taher Amine ELHOUARI
+license: Apache-2.0
+tags:
+- identity
+- password-spray
+domains:
+- enterprise
+platforms:
+- Windows
+- Office 365
+- SaaS
+estimated_events: 600
+duration: 2h
+safety:
+  synthetic_only: true
+  no_execution: true
+  reserved_indicators_only: true
+knowledge:
+  attack_version: '19.2'
+  d3fend_version: 1.5.0
+environment:
+  preset: hybrid-enterprise
+variables: {}
+noise:
+  percentage: 95
+  benign_lookalikes: true
+impairments:
+  max_clock_skew_seconds: 5
+  max_ingestion_delay_seconds: 25
+  missing_event_rate: 0.003
+  duplicate_rate: 0.003
+steps:
+- id: spray
+  title: Authentication failures across many accounts
+  after: []
+  delay_seconds:
+  - 20
+  - 120
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1110.003
+    tactic: Credential Access
+    detection_strategies:
+    - DET0487
+    analytics:
+    - AN1336
+    - AN1339
+    data_components: []
+    rationale: Repeated failures across many identities match password-spray behavior.
+    confidence: high
+  d3fend:
+  - d3fend_id: D3-UBA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: User behavior analysis can identify distributed authentication anomalies.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-CAA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Connection-attempt analysis can expose repeated failed access attempts.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: entra
+    action: sign-in-failure
+    category: authentication
+    severity: 5
+    message: Synthetic sign-in failure across another account
+    fields: {}
+  - source: idp
+    action: authentication-failure
+    category: authentication
+    severity: 5
+    message: Synthetic IdP authentication failure
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+- id: success
+  title: Target account authenticates
+  after:
+  - spray
+  delay_seconds:
+  - 20
+  - 120
+  probability: 1.0
+  actor: attacker
+  target: primary-user
+  state_changes: {}
+  attack:
+  - technique_id: T1078
+    tactic: Initial Access
+    detection_strategies: []
+    analytics: []
+    data_components: []
+    rationale: A valid account is used after the failure burst.
+    confidence: high
+  d3fend:
+  - d3fend_id: D3-UGLPA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Geolocation logon-pattern analysis can highlight an unusual sign-in
+      origin.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  - d3fend_id: D3-CCSA
+    relationship: defensive-opportunity
+    mapping_type: project-curated
+    rationale: Credential compromise scope analysis can bound subsequent use.
+    confidence: medium
+    source_url: https://d3fend.mitre.org/
+    review_status: reviewed
+  evidence:
+  - source: entra
+    action: sign-in-success
+    category: authentication
+    severity: 8
+    message: Synthetic successful sign-in from unusual location
+    fields: {}
+  - source: vpn
+    action: vpn-login
+    category: authentication
+    severity: 7
+    message: Synthetic VPN login with the same identity
+    fields: {}
+  benign_lookalikes:
+  - Authorized administration can resemble this behavior when scoped to expected assets.
+  expected_detections:
+  - Correlate identity, entity, source and time-window evidence across generated telemetry.
+  instructor_notes: Synthetic evidence only; no operational intrusion commands are
+    emitted.
+telemetry:
+- entra
+- active-directory
+- vpn
+- idp
+- windows-security
+detections:
+- name: Password spray correlation
+  expected: true
+ground_truth:
+  answers:
+  - The spray precedes a successful use of the targeted account.
+questions:
+- Which identities and assets form the earliest correlated suspicious chain?
+- Which telemetry sources provide the strongest causal evidence?
+- Which benign lookalike could cause an overly broad detection to fire?
+- What visibility gap would most change confidence in the investigation?
+scoring:
+  max_points: 100
+  rubric:
+  - criterion: timeline
+    points: 25
+  - criterion: entities
+    points: 25
+  - criterion: evidence
+    points: 25
+  - criterion: detection-and-gaps
+    points: 25
+references:
+- https://attack.mitre.org/
+- https://d3fend.mitre.org/

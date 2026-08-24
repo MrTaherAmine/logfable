@@ -1,0 +1,4 @@
+event_time,event_id,scenario_step
+2026-03-02T08:01:29+00:00,866baedf-cea9-e4a2-5a92-3bad7c7f8904,consent
+2026-03-02T08:02:01+00:00,e9957779-8c6e-e0da-dfda-5c3923484204,token
+2026-03-02T08:03:14+00:00,4bd7293b-eeaf-52be-451e-f7bed552ec22,role

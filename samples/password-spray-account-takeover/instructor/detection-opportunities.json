@@ -1,0 +1,38 @@
+[
+  {
+    "step": "spray",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "entra",
+      "idp"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  },
+  {
+    "step": "success",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "entra",
+      "vpn"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "oauth"
+    ],
+    "mapping_rationale": "Account/application permissions are modified to preserve access.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "consent",
+    "tactic": "Persistence",
+    "technique_id": "T1098"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "oauth"
+    ],
+    "mapping_rationale": "A synthetic application access token representation is used without containing a real token.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "token",
+    "tactic": "Defense Evasion",
+    "technique_id": "T1550.001"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "entra"
+    ],
+    "mapping_rationale": "Additional cloud role access is represented in audit telemetry.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "role",
+    "tactic": "Persistence",
+    "technique_id": "T1098.003"
+  }
+]

@@ -1,0 +1,54 @@
+[
+  {
+    "step": "admin-login",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "entra"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  },
+  {
+    "step": "persist",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "cloud-control"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  },
+  {
+    "step": "destroy",
+    "expected_detections": [
+      "Correlate identity, entity, source and time-window evidence across generated telemetry."
+    ],
+    "sources": [
+      "cloudtrail",
+      "azure-activity"
+    ],
+    "required_fields": [
+      "event_id",
+      "event_time",
+      "source_family",
+      "user",
+      "host",
+      "correlation_id"
+    ]
+  }
+]

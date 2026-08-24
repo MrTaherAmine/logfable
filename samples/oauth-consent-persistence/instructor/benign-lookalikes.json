@@ -1,0 +1,12 @@
+[
+  {
+    "event_id": "61d6909e-cca9-39da-d4ca-0c69c90d9a70",
+    "event_time": "2026-03-02T08:00:35+00:00",
+    "observed_time": "2026-03-02T08:00:52+00:00",
+    "source_family": "entra",
+    "correlation_id": "c3fdbd9c-0db5-c51f-91da-cde48cf5645c",
+    "user": "user-0001",
+    "host": "host-0001",
+    "message": "Benign lookalike: user mistyped a password during routine sign-in"
+  }
+]

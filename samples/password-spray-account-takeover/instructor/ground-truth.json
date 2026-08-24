@@ -1,0 +1,54 @@
+[
+  {
+    "event_id": "c6f338b7-c7cf-d958-b699-7976941388da",
+    "step": "spray",
+    "techniques": [
+      "T1110.003"
+    ],
+    "event_time": "2026-03-02T08:01:24+00:00",
+    "observed_time": "2026-03-02T08:01:29+00:00",
+    "source_family": "idp",
+    "correlation_id": "e7d33821-a4fd-3f89-f6c6-1c29cfbc8ce1",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "67fbfa7b-ec69-0aa0-61d7-31144c477063",
+    "step": "spray",
+    "techniques": [
+      "T1110.003"
+    ],
+    "event_time": "2026-03-02T08:01:29+00:00",
+    "observed_time": "2026-03-02T08:01:40+00:00",
+    "source_family": "entra",
+    "correlation_id": "e7d33821-a4fd-3f89-f6c6-1c29cfbc8ce1",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "97997c42-bcd0-f467-ac35-2b853c51eb5e",
+    "step": "success",
+    "techniques": [
+      "T1078"
+    ],
+    "event_time": "2026-03-02T08:03:04+00:00",
+    "observed_time": "2026-03-02T08:03:20+00:00",
+    "source_family": "entra",
+    "correlation_id": "09f2b828-238e-5966-b3fb-5c7cb1779eae",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "28d068a1-7fac-29b0-0e6b-e15198a363f2",
+    "step": "success",
+    "techniques": [
+      "T1078"
+    ],
+    "event_time": "2026-03-02T08:03:09+00:00",
+    "observed_time": "2026-03-02T08:03:30+00:00",
+    "source_family": "vpn",
+    "correlation_id": "09f2b828-238e-5966-b3fb-5c7cb1779eae",
+    "user": "user-0001",
+    "host": "host-0001"
+  }
+]

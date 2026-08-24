@@ -1,0 +1,56 @@
+[
+  {
+    "attack_id": "T1098",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UBA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "oauth"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Analyze unusual authorization and consent behavior.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "consent",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1550.001",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-CCSA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "oauth"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Analyze identity activity to scope credential or token exposure.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "token",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1098.003",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UBA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "entra"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Review anomalous cloud role assignment behavior.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "role",
+    "source_url": "https://d3fend.mitre.org/"
+  }
+]

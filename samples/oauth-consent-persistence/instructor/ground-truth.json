@@ -1,0 +1,41 @@
+[
+  {
+    "event_id": "866baedf-cea9-e4a2-5a92-3bad7c7f8904",
+    "step": "consent",
+    "techniques": [
+      "T1098"
+    ],
+    "event_time": "2026-03-02T08:01:29+00:00",
+    "observed_time": "2026-03-02T08:01:40+00:00",
+    "source_family": "oauth",
+    "correlation_id": "d278fe1b-1715-a16e-6e68-c40fc4087727",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "e9957779-8c6e-e0da-dfda-5c3923484204",
+    "step": "token",
+    "techniques": [
+      "T1550.001"
+    ],
+    "event_time": "2026-03-02T08:02:01+00:00",
+    "observed_time": "2026-03-02T08:02:04+00:00",
+    "source_family": "oauth",
+    "correlation_id": "5fbc2f0d-ba32-93f1-8b5d-e1e0da73fde2",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "4bd7293b-eeaf-52be-451e-f7bed552ec22",
+    "step": "role",
+    "techniques": [
+      "T1098.003"
+    ],
+    "event_time": "2026-03-02T08:03:14+00:00",
+    "observed_time": "2026-03-02T08:03:35+00:00",
+    "source_family": "entra",
+    "correlation_id": "8da7fea7-92c9-fe2e-db0e-4d1e4f7d1d88",
+    "user": "user-0001",
+    "host": "host-0001"
+  }
+]

@@ -1,0 +1,8 @@
+{
+  "questions": [
+    "Which identities and assets form the earliest correlated suspicious chain?",
+    "Which telemetry sources provide the strongest causal evidence?",
+    "Which benign lookalike could cause an overly broad detection to fire?",
+    "What visibility gap would most change confidence in the investigation?"
+  ]
+}

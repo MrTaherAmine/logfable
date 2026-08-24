@@ -1,0 +1,41 @@
+[
+  {
+    "analytics": [
+      "AN1336",
+      "AN1339"
+    ],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [
+      "DET0487"
+    ],
+    "evidence_sources": [
+      "entra",
+      "idp"
+    ],
+    "mapping_rationale": "Repeated failures across many identities match password-spray behavior.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "spray",
+    "tactic": "Credential Access",
+    "technique_id": "T1110.003"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "entra",
+      "vpn"
+    ],
+    "mapping_rationale": "A valid account is used after the failure burst.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "success",
+    "tactic": "Initial Access",
+    "technique_id": "T1078"
+  }
+]
