@@ -1,0 +1,75 @@
+[
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "vpn",
+      "windows-security"
+    ],
+    "mapping_rationale": "A valid identity begins the precursor chain.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "remote",
+    "tactic": "Initial Access",
+    "technique_id": "T1078"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "vpn",
+      "windows-security"
+    ],
+    "mapping_rationale": "Synthetic remote desktop session evidence represents remote access.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "remote",
+    "tactic": "Lateral Movement",
+    "technique_id": "T1021.001"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "edr",
+      "windows-security"
+    ],
+    "mapping_rationale": "Synthetic security-control state changes represent attempted defense impairment.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "impair",
+    "tactic": "Defense Evasion",
+    "technique_id": "T1562.001"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [
+      "DC0039",
+      "DC0040",
+      "DC0059",
+      "DC0061"
+    ],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "edr",
+      "sysmon"
+    ],
+    "mapping_rationale": "High-volume synthetic file-change metadata represents ransomware impact without encrypting data.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "impact",
+    "tactic": "Impact",
+    "technique_id": "T1486"
+  }
+]

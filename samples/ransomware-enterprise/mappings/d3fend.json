@@ -1,0 +1,97 @@
+[
+  {
+    "attack_id": "T1078",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UGLPA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "vpn",
+      "windows-security"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Unusual logon pattern analysis can expose remote access anomalies.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "remote",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1078",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-ANAA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "vpn",
+      "windows-security"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Administrative network activity analysis can highlight remote management use.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "remote",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1562.001",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-SFA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "edr",
+      "windows-security"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "System file and log analysis can reveal tampering or security-service state change evidence.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "impair",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1486",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-FA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "edr",
+      "sysmon"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "File analysis can examine abnormal file change patterns.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "impact",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1486",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-SFA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "edr",
+      "sysmon"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "System file analysis can identify widespread unexpected changes.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "impact",
+    "source_url": "https://d3fend.mitre.org/"
+  }
+]

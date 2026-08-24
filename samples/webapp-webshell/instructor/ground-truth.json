@@ -1,0 +1,54 @@
+[
+  {
+    "event_id": "40f6cdd7-fccc-8d15-b553-c4e0db7bbe9d",
+    "step": "exploit",
+    "techniques": [
+      "T1190"
+    ],
+    "event_time": "2026-03-02T08:01:24+00:00",
+    "observed_time": "2026-03-02T08:01:29+00:00",
+    "source_family": "nginx",
+    "correlation_id": "79e85d8c-eb2b-a769-b5c1-d76bf3a6345f",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "6ff48360-5866-727a-85bb-07bf14f4e6e7",
+    "step": "exploit",
+    "techniques": [
+      "T1190"
+    ],
+    "event_time": "2026-03-02T08:01:29+00:00",
+    "observed_time": "2026-03-02T08:01:40+00:00",
+    "source_family": "waf",
+    "correlation_id": "79e85d8c-eb2b-a769-b5c1-d76bf3a6345f",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "1c0d6dc5-b181-409f-4547-2f14e038d2d9",
+    "step": "webshell",
+    "techniques": [
+      "T1505.003"
+    ],
+    "event_time": "2026-03-02T08:03:04+00:00",
+    "observed_time": "2026-03-02T08:03:20+00:00",
+    "source_family": "edr",
+    "correlation_id": "47686948-c19c-127b-cdd0-9fd0a519cb51",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "00f1e514-55d7-befb-8fe6-d3b3e6d6c411",
+    "step": "webshell",
+    "techniques": [
+      "T1505.003"
+    ],
+    "event_time": "2026-03-02T08:03:09+00:00",
+    "observed_time": "2026-03-02T08:03:30+00:00",
+    "source_family": "auditd",
+    "correlation_id": "47686948-c19c-127b-cdd0-9fd0a519cb51",
+    "user": "user-0001",
+    "host": "host-0001"
+  }
+]

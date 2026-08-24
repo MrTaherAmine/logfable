@@ -1,0 +1,14 @@
+{
+  "analyst_stream_contains_labels": false,
+  "events": 30,
+  "exports": {
+    "generic-jsonl": {
+      "lossy": [],
+      "path": "telemetry/normalized/generic-jsonl/events.jsonl",
+      "records": 30
+    }
+  },
+  "sources": 12,
+  "unique_event_ids": true,
+  "valid": true
+}

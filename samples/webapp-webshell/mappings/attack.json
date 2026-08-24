@@ -1,0 +1,36 @@
+[
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "nginx",
+      "waf"
+    ],
+    "mapping_rationale": "Synthetic WAF and access events represent exploitation attempts without exploit syntax.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "exploit",
+    "tactic": "Initial Access",
+    "technique_id": "T1190"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "auditd",
+      "edr"
+    ],
+    "mapping_rationale": "Synthetic metadata represents a web-shell-like artifact but contains no executable server-side code.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "webshell",
+    "tactic": "Persistence",
+    "technique_id": "T1505.003"
+  }
+]

@@ -1,0 +1,5 @@
+event_time,event_id,scenario_step
+2026-03-02T08:01:24+00:00,40f6cdd7-fccc-8d15-b553-c4e0db7bbe9d,exploit
+2026-03-02T08:01:29+00:00,6ff48360-5866-727a-85bb-07bf14f4e6e7,exploit
+2026-03-02T08:03:04+00:00,1c0d6dc5-b181-409f-4547-2f14e038d2d9,webshell
+2026-03-02T08:03:09+00:00,00f1e514-55d7-befb-8fe6-d3b3e6d6c411,webshell

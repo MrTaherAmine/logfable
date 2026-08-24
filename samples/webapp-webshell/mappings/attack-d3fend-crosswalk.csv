@@ -1,0 +1,5 @@
+scenario_step,attack_id,d3fend_id,mapping_type,confidence
+exploit,T1190,D3-NTA,project-curated,medium
+exploit,T1190,D3-NTSA,project-curated,medium
+webshell,T1505.003,D3-FCOA,project-curated,medium
+webshell,T1505.003,D3-SFA,project-curated,medium

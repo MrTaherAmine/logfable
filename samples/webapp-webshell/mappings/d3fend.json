@@ -1,0 +1,78 @@
+[
+  {
+    "attack_id": "T1190",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-NTA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "nginx",
+      "waf"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Analyze network requests for anomalous web traffic.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "exploit",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1190",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-NTSA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "nginx",
+      "waf"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Traffic signature analysis may identify known patterns; tuning is required.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "exploit",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1505.003",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-FCOA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "auditd",
+      "edr"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "File content analysis is a defensive opportunity for suspicious server-side artifacts.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "webshell",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1505.003",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-SFA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "auditd",
+      "edr"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "System file analysis can detect unauthorized web-root changes.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "webshell",
+    "source_url": "https://d3fend.mitre.org/"
+  }
+]

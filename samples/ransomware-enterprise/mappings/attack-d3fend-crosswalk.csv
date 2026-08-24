@@ -1,0 +1,6 @@
+scenario_step,attack_id,d3fend_id,mapping_type,confidence
+remote,T1078,D3-UGLPA,project-curated,medium
+remote,T1078,D3-ANAA,project-curated,medium
+impair,T1562.001,D3-SFA,project-curated,medium
+impact,T1486,D3-FA,project-curated,medium
+impact,T1486,D3-SFA,project-curated,medium
