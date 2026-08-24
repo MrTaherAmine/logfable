@@ -1,0 +1,52 @@
+[
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "edr"
+    ],
+    "mapping_rationale": "Synthetic endpoint telemetry represents credential material exposure without including a secret.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "endpoint",
+    "tactic": "Credential Access",
+    "technique_id": "T1552.001"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "powershell",
+      "windows-security"
+    ],
+    "mapping_rationale": "Synthetic WinRM-style session evidence represents remote administration without sending commands.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "remote",
+    "tactic": "Lateral Movement",
+    "technique_id": "T1021.006"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "cloudtrail",
+      "entra"
+    ],
+    "mapping_rationale": "Cloud role assignment is expanded after hybrid identity movement.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "cloud",
+    "tactic": "Persistence",
+    "technique_id": "T1098.003"
+  }
+]

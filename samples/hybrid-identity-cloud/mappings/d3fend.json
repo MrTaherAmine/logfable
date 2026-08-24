@@ -1,0 +1,58 @@
+[
+  {
+    "attack_id": "T1552.001",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-SFA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "edr"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "System file analysis can detect risky credential-bearing files or configuration changes.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "endpoint",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1021.006",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-ANAA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "powershell",
+      "windows-security"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Administrative network activity analysis can identify unexpected remote administration.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "remote",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1098.003",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UBA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "cloudtrail",
+      "entra"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Analyze privilege assignment against normal administrative behavior.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "cloud",
+    "source_url": "https://d3fend.mitre.org/"
+  }
+]

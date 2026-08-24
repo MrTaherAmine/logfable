@@ -1,0 +1,54 @@
+[
+  {
+    "event_id": "203fcc83-4ad2-727f-98a7-b543f312fdca",
+    "step": "repo",
+    "techniques": [
+      "T1078"
+    ],
+    "event_time": "2026-03-02T08:01:29+00:00",
+    "observed_time": "2026-03-02T08:01:40+00:00",
+    "source_family": "git-audit",
+    "correlation_id": "09432326-e420-6dfe-8204-dad2e1036d7a",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "43268321-dd5a-9663-1823-54dc3c3c5622",
+    "step": "pipeline",
+    "techniques": [
+      "T1195.002"
+    ],
+    "event_time": "2026-03-02T08:02:01+00:00",
+    "observed_time": "2026-03-02T08:02:04+00:00",
+    "source_family": "git-audit",
+    "correlation_id": "b8621e44-d921-7b15-08d2-06926d4b4fc7",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "e449ea0a-6145-ac3d-0c41-e1429d646c1c",
+    "step": "pipeline",
+    "techniques": [
+      "T1195.002"
+    ],
+    "event_time": "2026-03-02T08:02:02+00:00",
+    "observed_time": "2026-03-02T08:02:18+00:00",
+    "source_family": "cicd",
+    "correlation_id": "b8621e44-d921-7b15-08d2-06926d4b4fc7",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "b8e55682-f94d-5704-8300-46155d7b37cf",
+    "step": "artifact",
+    "techniques": [
+      "T1195.002"
+    ],
+    "event_time": "2026-03-02T08:03:32+00:00",
+    "observed_time": "2026-03-02T08:03:47+00:00",
+    "source_family": "artifact-registry",
+    "correlation_id": "84ef4ddd-22c4-a082-64c8-9cbf69f0562d",
+    "user": "user-0001",
+    "host": "host-0001"
+  }
+]

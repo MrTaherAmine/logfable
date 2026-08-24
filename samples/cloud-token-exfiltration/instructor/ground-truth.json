@@ -1,0 +1,54 @@
+[
+  {
+    "event_id": "e9957779-8c6e-e0da-dfda-5c3923484204",
+    "step": "token",
+    "techniques": [
+      "T1528"
+    ],
+    "event_time": "2026-03-02T08:01:29+00:00",
+    "observed_time": "2026-03-02T08:01:40+00:00",
+    "source_family": "cloudtrail",
+    "correlation_id": "5fbc2f0d-ba32-93f1-8b5d-e1e0da73fde2",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "98c0e108-cdc0-c431-42a2-e25809d29855",
+    "step": "collect",
+    "techniques": [
+      "T1530"
+    ],
+    "event_time": "2026-03-02T08:02:01+00:00",
+    "observed_time": "2026-03-02T08:02:04+00:00",
+    "source_family": "object-storage",
+    "correlation_id": "97299ec6-3d54-a099-d22e-39fdcecaf640",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "f8c84ad0-7038-cc83-e0f4-1057cfb4c30e",
+    "step": "exfil",
+    "techniques": [
+      "T1567.002"
+    ],
+    "event_time": "2026-03-02T08:03:14+00:00",
+    "observed_time": "2026-03-02T08:03:29+00:00",
+    "source_family": "dns",
+    "correlation_id": "83b55198-d8c4-72e7-1f5c-4249cc37b65b",
+    "user": "user-0001",
+    "host": "host-0001"
+  },
+  {
+    "event_id": "f9593097-5552-159a-e0b5-2c965ec0788b",
+    "step": "exfil",
+    "techniques": [
+      "T1567.002"
+    ],
+    "event_time": "2026-03-02T08:03:14+00:00",
+    "observed_time": "2026-03-02T08:03:35+00:00",
+    "source_family": "proxy",
+    "correlation_id": "83b55198-d8c4-72e7-1f5c-4249cc37b65b",
+    "user": "user-0001",
+    "host": "host-0001"
+  }
+]

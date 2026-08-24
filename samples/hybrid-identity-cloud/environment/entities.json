@@ -1,0 +1,653 @@
+[
+  {
+    "id": "org-1",
+    "kind": "organization",
+    "name": "Northstar Example Cooperative",
+    "attributes": {
+      "domain": "northstar.example",
+      "preset": "hybrid-enterprise"
+    }
+  },
+  {
+    "id": "dept-engineering",
+    "kind": "business-unit",
+    "name": "Engineering",
+    "attributes": {}
+  },
+  {
+    "id": "dept-finance",
+    "kind": "business-unit",
+    "name": "Finance",
+    "attributes": {}
+  },
+  {
+    "id": "dept-operations",
+    "kind": "business-unit",
+    "name": "Operations",
+    "attributes": {}
+  },
+  {
+    "id": "dept-research",
+    "kind": "business-unit",
+    "name": "Research",
+    "attributes": {}
+  },
+  {
+    "id": "dept-sales",
+    "kind": "business-unit",
+    "name": "Sales",
+    "attributes": {}
+  },
+  {
+    "id": "dept-security",
+    "kind": "business-unit",
+    "name": "Security",
+    "attributes": {}
+  },
+  {
+    "id": "dept-support",
+    "kind": "business-unit",
+    "name": "Support",
+    "attributes": {}
+  },
+  {
+    "id": "user-0001",
+    "kind": "human-identity",
+    "name": "Alex0001 Example",
+    "attributes": {
+      "username": "alex0001",
+      "email": "alex0001@northstar.example",
+      "department": "engineering",
+      "privileged": true
+    }
+  },
+  {
+    "id": "user-0002",
+    "kind": "human-identity",
+    "name": "Alex0002 Example",
+    "attributes": {
+      "username": "alex0002",
+      "email": "alex0002@northstar.example",
+      "department": "finance",
+      "privileged": true
+    }
+  },
+  {
+    "id": "user-0003",
+    "kind": "human-identity",
+    "name": "Alex0003 Example",
+    "attributes": {
+      "username": "alex0003",
+      "email": "alex0003@northstar.example",
+      "department": "operations",
+      "privileged": false
+    }
+  },
+  {
+    "id": "user-0004",
+    "kind": "human-identity",
+    "name": "Alex0004 Example",
+    "attributes": {
+      "username": "alex0004",
+      "email": "alex0004@northstar.example",
+      "department": "research",
+      "privileged": false
+    }
+  },
+  {
+    "id": "user-0005",
+    "kind": "human-identity",
+    "name": "Alex0005 Example",
+    "attributes": {
+      "username": "alex0005",
+      "email": "alex0005@northstar.example",
+      "department": "sales",
+      "privileged": false
+    }
+  },
+  {
+    "id": "user-0006",
+    "kind": "human-identity",
+    "name": "Alex0006 Example",
+    "attributes": {
+      "username": "alex0006",
+      "email": "alex0006@northstar.example",
+      "department": "security",
+      "privileged": false
+    }
+  },
+  {
+    "id": "user-0007",
+    "kind": "human-identity",
+    "name": "Alex0007 Example",
+    "attributes": {
+      "username": "alex0007",
+      "email": "alex0007@northstar.example",
+      "department": "support",
+      "privileged": false
+    }
+  },
+  {
+    "id": "user-0008",
+    "kind": "human-identity",
+    "name": "Alex0008 Example",
+    "attributes": {
+      "username": "alex0008",
+      "email": "alex0008@northstar.example",
+      "department": "engineering",
+      "privileged": false
+    }
+  },
+  {
+    "id": "user-0009",
+    "kind": "human-identity",
+    "name": "Alex0009 Example",
+    "attributes": {
+      "username": "alex0009",
+      "email": "alex0009@northstar.example",
+      "department": "finance",
+      "privileged": false
+    }
+  },
+  {
+    "id": "user-0010",
+    "kind": "human-identity",
+    "name": "Alex0010 Example",
+    "attributes": {
+      "username": "alex0010",
+      "email": "alex0010@northstar.example",
+      "department": "operations",
+      "privileged": false
+    }
+  },
+  {
+    "id": "user-0011",
+    "kind": "human-identity",
+    "name": "Alex0011 Example",
+    "attributes": {
+      "username": "alex0011",
+      "email": "alex0011@northstar.example",
+      "department": "research",
+      "privileged": false
+    }
+  },
+  {
+    "id": "user-0012",
+    "kind": "human-identity",
+    "name": "Alex0012 Example",
+    "attributes": {
+      "username": "alex0012",
+      "email": "alex0012@northstar.example",
+      "department": "sales",
+      "privileged": false
+    }
+  },
+  {
+    "id": "group-admins",
+    "kind": "group",
+    "name": "Admins",
+    "attributes": {}
+  },
+  {
+    "id": "group-developers",
+    "kind": "group",
+    "name": "Developers",
+    "attributes": {}
+  },
+  {
+    "id": "group-security-operators",
+    "kind": "group",
+    "name": "Security Operators",
+    "attributes": {}
+  },
+  {
+    "id": "group-break-glass",
+    "kind": "group",
+    "name": "Break Glass",
+    "attributes": {}
+  },
+  {
+    "id": "svc-001",
+    "kind": "service-identity",
+    "name": "svc-app-001",
+    "attributes": {
+      "interactive": false
+    }
+  },
+  {
+    "id": "svc-002",
+    "kind": "service-identity",
+    "name": "svc-app-002",
+    "attributes": {
+      "interactive": false
+    }
+  },
+  {
+    "id": "svc-003",
+    "kind": "service-identity",
+    "name": "svc-app-003",
+    "attributes": {
+      "interactive": false
+    }
+  },
+  {
+    "id": "host-0001",
+    "kind": "endpoint",
+    "name": "ws-0001.northstar.example",
+    "attributes": {
+      "os": "Windows",
+      "ip": "10.10.0.1"
+    }
+  },
+  {
+    "id": "host-0002",
+    "kind": "endpoint",
+    "name": "ws-0002.northstar.example",
+    "attributes": {
+      "os": "Linux",
+      "ip": "10.10.0.2"
+    }
+  },
+  {
+    "id": "host-0003",
+    "kind": "endpoint",
+    "name": "ws-0003.northstar.example",
+    "attributes": {
+      "os": "macOS",
+      "ip": "10.10.0.3"
+    }
+  },
+  {
+    "id": "host-0004",
+    "kind": "endpoint",
+    "name": "ws-0004.northstar.example",
+    "attributes": {
+      "os": "Windows",
+      "ip": "10.10.0.4"
+    }
+  },
+  {
+    "id": "host-0005",
+    "kind": "endpoint",
+    "name": "ws-0005.northstar.example",
+    "attributes": {
+      "os": "Linux",
+      "ip": "10.10.0.5"
+    }
+  },
+  {
+    "id": "host-0006",
+    "kind": "endpoint",
+    "name": "ws-0006.northstar.example",
+    "attributes": {
+      "os": "macOS",
+      "ip": "10.10.0.6"
+    }
+  },
+  {
+    "id": "host-0007",
+    "kind": "endpoint",
+    "name": "ws-0007.northstar.example",
+    "attributes": {
+      "os": "Windows",
+      "ip": "10.10.0.7"
+    }
+  },
+  {
+    "id": "host-0008",
+    "kind": "endpoint",
+    "name": "ws-0008.northstar.example",
+    "attributes": {
+      "os": "Linux",
+      "ip": "10.10.0.8"
+    }
+  },
+  {
+    "id": "host-0009",
+    "kind": "endpoint",
+    "name": "ws-0009.northstar.example",
+    "attributes": {
+      "os": "macOS",
+      "ip": "10.10.0.9"
+    }
+  },
+  {
+    "id": "host-0010",
+    "kind": "endpoint",
+    "name": "ws-0010.northstar.example",
+    "attributes": {
+      "os": "Windows",
+      "ip": "10.10.0.10"
+    }
+  },
+  {
+    "id": "server-001",
+    "kind": "server",
+    "name": "srv-001.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.1",
+      "os": "Windows Server"
+    }
+  },
+  {
+    "id": "server-002",
+    "kind": "server",
+    "name": "srv-002.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.2",
+      "os": "Linux"
+    }
+  },
+  {
+    "id": "server-003",
+    "kind": "server",
+    "name": "srv-003.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.3",
+      "os": "Windows Server"
+    }
+  },
+  {
+    "id": "server-004",
+    "kind": "server",
+    "name": "srv-004.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.4",
+      "os": "Linux"
+    }
+  },
+  {
+    "id": "server-005",
+    "kind": "server",
+    "name": "srv-005.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.5",
+      "os": "Windows Server"
+    }
+  },
+  {
+    "id": "server-006",
+    "kind": "server",
+    "name": "srv-006.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.6",
+      "os": "Linux"
+    }
+  },
+  {
+    "id": "server-007",
+    "kind": "server",
+    "name": "srv-007.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.7",
+      "os": "Windows Server"
+    }
+  },
+  {
+    "id": "server-008",
+    "kind": "server",
+    "name": "srv-008.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.8",
+      "os": "Linux"
+    }
+  },
+  {
+    "id": "server-009",
+    "kind": "server",
+    "name": "srv-009.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.9",
+      "os": "Windows Server"
+    }
+  },
+  {
+    "id": "server-010",
+    "kind": "server",
+    "name": "srv-010.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.10",
+      "os": "Linux"
+    }
+  },
+  {
+    "id": "server-011",
+    "kind": "server",
+    "name": "srv-011.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.11",
+      "os": "Windows Server"
+    }
+  },
+  {
+    "id": "server-012",
+    "kind": "server",
+    "name": "srv-012.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.12",
+      "os": "Linux"
+    }
+  },
+  {
+    "id": "server-013",
+    "kind": "server",
+    "name": "srv-013.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.13",
+      "os": "Windows Server"
+    }
+  },
+  {
+    "id": "server-014",
+    "kind": "server",
+    "name": "srv-014.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.14",
+      "os": "Linux"
+    }
+  },
+  {
+    "id": "server-015",
+    "kind": "server",
+    "name": "srv-015.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.15",
+      "os": "Windows Server"
+    }
+  },
+  {
+    "id": "server-016",
+    "kind": "server",
+    "name": "srv-016.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.16",
+      "os": "Linux"
+    }
+  },
+  {
+    "id": "server-017",
+    "kind": "server",
+    "name": "srv-017.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.17",
+      "os": "Windows Server"
+    }
+  },
+  {
+    "id": "server-018",
+    "kind": "server",
+    "name": "srv-018.northstar.example",
+    "attributes": {
+      "ip": "10.20.0.18",
+      "os": "Linux"
+    }
+  },
+  {
+    "id": "cloud-001",
+    "kind": "cloud-resource",
+    "name": "resource-001",
+    "attributes": {
+      "provider": "aws",
+      "region": "example-region-1"
+    }
+  },
+  {
+    "id": "cloud-002",
+    "kind": "cloud-resource",
+    "name": "resource-002",
+    "attributes": {
+      "provider": "azure",
+      "region": "example-region-1"
+    }
+  },
+  {
+    "id": "cloud-003",
+    "kind": "cloud-resource",
+    "name": "resource-003",
+    "attributes": {
+      "provider": "gcp",
+      "region": "example-region-1"
+    }
+  },
+  {
+    "id": "cloud-004",
+    "kind": "cloud-resource",
+    "name": "resource-004",
+    "attributes": {
+      "provider": "aws",
+      "region": "example-region-1"
+    }
+  },
+  {
+    "id": "cloud-005",
+    "kind": "cloud-resource",
+    "name": "resource-005",
+    "attributes": {
+      "provider": "azure",
+      "region": "example-region-1"
+    }
+  },
+  {
+    "id": "cloud-006",
+    "kind": "cloud-resource",
+    "name": "resource-006",
+    "attributes": {
+      "provider": "gcp",
+      "region": "example-region-1"
+    }
+  },
+  {
+    "id": "cloud-007",
+    "kind": "cloud-resource",
+    "name": "resource-007",
+    "attributes": {
+      "provider": "aws",
+      "region": "example-region-1"
+    }
+  },
+  {
+    "id": "cloud-008",
+    "kind": "cloud-resource",
+    "name": "resource-008",
+    "attributes": {
+      "provider": "azure",
+      "region": "example-region-1"
+    }
+  },
+  {
+    "id": "cloud-009",
+    "kind": "cloud-resource",
+    "name": "resource-009",
+    "attributes": {
+      "provider": "gcp",
+      "region": "example-region-1"
+    }
+  },
+  {
+    "id": "cloud-010",
+    "kind": "cloud-resource",
+    "name": "resource-010",
+    "attributes": {
+      "provider": "aws",
+      "region": "example-region-1"
+    }
+  },
+  {
+    "id": "cloud-011",
+    "kind": "cloud-resource",
+    "name": "resource-011",
+    "attributes": {
+      "provider": "azure",
+      "region": "example-region-1"
+    }
+  },
+  {
+    "id": "cloud-012",
+    "kind": "cloud-resource",
+    "name": "resource-012",
+    "attributes": {
+      "provider": "gcp",
+      "region": "example-region-1"
+    }
+  },
+  {
+    "id": "k8s-01",
+    "kind": "kubernetes-cluster",
+    "name": "cluster-1.northstar.example",
+    "attributes": {}
+  },
+  {
+    "id": "pod-01-01",
+    "kind": "pod",
+    "name": "app-1-2951",
+    "attributes": {
+      "namespace": "prod"
+    }
+  },
+  {
+    "id": "pod-01-02",
+    "kind": "pod",
+    "name": "app-2-6234",
+    "attributes": {
+      "namespace": "prod"
+    }
+  },
+  {
+    "id": "pod-01-03",
+    "kind": "pod",
+    "name": "app-3-9233",
+    "attributes": {
+      "namespace": "dev"
+    }
+  },
+  {
+    "id": "k8s-02",
+    "kind": "kubernetes-cluster",
+    "name": "cluster-2.northstar.example",
+    "attributes": {}
+  },
+  {
+    "id": "pod-02-01",
+    "kind": "pod",
+    "name": "app-1-9385",
+    "attributes": {
+      "namespace": "prod"
+    }
+  },
+  {
+    "id": "pod-02-02",
+    "kind": "pod",
+    "name": "app-2-2681",
+    "attributes": {
+      "namespace": "prod"
+    }
+  },
+  {
+    "id": "pod-02-03",
+    "kind": "pod",
+    "name": "app-3-4658",
+    "attributes": {
+      "namespace": "dev"
+    }
+  }
+]

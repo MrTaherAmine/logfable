@@ -1,0 +1,76 @@
+[
+  {
+    "attack_id": "T1528",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-CCSA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "cloudtrail"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Scope credential exposure from authentication and access history.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "token",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1530",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UDTA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "object-storage"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "User data transfer analysis can identify abnormal object access volume.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "collect",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1567.002",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-NTA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "dns",
+      "proxy"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Network traffic analysis can correlate unusual outbound flows.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "exfil",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1567.002",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-NTF",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "dns",
+      "proxy"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Outbound filtering is a defensive opportunity, not a guarantee.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "exfil",
+    "source_url": "https://d3fend.mitre.org/"
+  }
+]

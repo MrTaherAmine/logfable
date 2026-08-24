@@ -1,0 +1,57 @@
+[
+  {
+    "attack_id": "T1078",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-UBA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "git-audit"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Developer behavior analysis can highlight unusual repository access.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "repo",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1195.002",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-SFA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "cicd",
+      "git-audit"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "Configuration-file monitoring can identify unauthorized pipeline changes.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "pipeline",
+    "source_url": "https://d3fend.mitre.org/"
+  },
+  {
+    "attack_id": "T1195.002",
+    "attack_version": "19.2",
+    "confidence": "medium",
+    "d3fend_id": "D3-FA",
+    "d3fend_version": "1.5.0",
+    "evidence": [
+      "artifact-registry"
+    ],
+    "mapping_type": "project-curated",
+    "rationale": "File/artifact analysis can inspect produced packages before promotion.",
+    "relationship": "defensive-opportunity",
+    "relationship_source": "LogFable project mapping",
+    "review_status": "reviewed",
+    "reviewer": "LogFable maintainers",
+    "scenario_step": "artifact",
+    "source_url": "https://d3fend.mitre.org/"
+  }
+]

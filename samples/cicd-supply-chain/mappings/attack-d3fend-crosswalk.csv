@@ -1,0 +1,4 @@
+scenario_step,attack_id,d3fend_id,mapping_type,confidence
+repo,T1078,D3-UBA,project-curated,medium
+pipeline,T1195.002,D3-SFA,project-curated,medium
+artifact,T1195.002,D3-FA,project-curated,medium

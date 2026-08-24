@@ -1,0 +1,51 @@
+[
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "cloudtrail"
+    ],
+    "mapping_rationale": "A placeholder application access token is represented as stolen and used; no usable secret is generated.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "token",
+    "tactic": "Credential Access",
+    "technique_id": "T1528"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "object-storage"
+    ],
+    "mapping_rationale": "Synthetic object-storage access records represent bulk collection.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "collect",
+    "tactic": "Collection",
+    "technique_id": "T1530"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "dns",
+      "proxy"
+    ],
+    "mapping_rationale": "Synthetic transfer metadata represents exfiltration to storage at sink.example without sending data.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "exfil",
+    "tactic": "Exfiltration",
+    "technique_id": "T1567.002"
+  }
+]

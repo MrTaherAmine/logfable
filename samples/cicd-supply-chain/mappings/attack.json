@@ -1,0 +1,51 @@
+[
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "git-audit"
+    ],
+    "mapping_rationale": "A valid developer identity is used outside its normal context.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "repo",
+    "tactic": "Initial Access",
+    "technique_id": "T1078"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "cicd",
+      "git-audit"
+    ],
+    "mapping_rationale": "Synthetic CI configuration change represents supply-chain compromise without malicious build content.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "pipeline",
+    "tactic": "Initial Access",
+    "technique_id": "T1195.002"
+  },
+  {
+    "analytics": [],
+    "attack_version": "19.2",
+    "confidence": "high",
+    "data_components": [],
+    "detection_strategies": [],
+    "evidence_sources": [
+      "artifact-registry"
+    ],
+    "mapping_rationale": "Synthetic artifact publication extends the represented supply-chain chain.",
+    "provenance": "scenario-author-reviewed",
+    "review_status": "reviewed",
+    "scenario_step": "artifact",
+    "tactic": "Initial Access",
+    "technique_id": "T1195.002"
+  }
+]
