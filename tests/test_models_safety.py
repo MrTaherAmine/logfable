@@ -73,6 +73,19 @@ def test_safe_indicators():
     assert any("live-domain" in x for x in findings)
 
 
+def test_reference_domain_allowlist_boundary():
+    assert unsafe_indicators("https://attack.mitre.org/techniques/T1110") == []
+    assert unsafe_indicators("https://github.com/sigmahq/rules") == []
+    assert unsafe_indicators("https://a.b.c.sigmahq.io/reference") == []
+    assert unsafe_indicators("https://mitre.org") == []
+    for lookalike in [
+        "https://evilgithub.com/technique/T1110",
+        "https://notmitre.org/attack",
+        "https://fakeocsf.io/schema",
+    ]:
+        assert any(f"live-domain:{lookalike.split('/')[2]}" in item for item in unsafe_indicators(lookalike))
+
+
 def test_safe_child_and_terminal(tmp_path):
     assert safe_child(tmp_path, tmp_path / "a") == (tmp_path / "a").resolve()
     with pytest.raises(SafetyError):

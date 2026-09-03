@@ -54,7 +54,10 @@ def unsafe_indicators(text: str) -> list[str]:
             "example.org",
         }:
             continue
-        if not any(normalized.endswith(suffix) for suffix in ALLOWED_REFERENCE_DOMAINS):
+        if not any(
+            normalized == suffix or normalized.endswith(f".{suffix}")
+            for suffix in ALLOWED_REFERENCE_DOMAINS
+        ):
             findings.append(f"live-domain:{domain}")
     return sorted(set(findings))
 
